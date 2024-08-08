@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../../widgets/bottom_sheet.dart';
+import '../../widgets/drawer.dart';
+import '../../widgets/konstants.dart';
 
 class ScreenHero extends StatelessWidget {
   const ScreenHero({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      key: scaffoldKey,
+      drawer: showDrawer(context),
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
           icon: const Icon(Icons.menu_rounded),
+          onPressed: () {
+            scaffoldKey.currentState!.openDrawer();
+          },
         ),
         title: const Text(
           'Endernote',
@@ -29,11 +40,13 @@ class ScreenHero extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Center(
-              child: Placeholder(
-                fallbackHeight: 150,
+              child: SvgPicture.asset(
+                "lib/assets/brain.svg",
+                height: 150,
+                color: clrText,
               ),
             ),
           ),
@@ -41,7 +54,9 @@ class ScreenHero extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
               child: const Text('Create new note'),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/canvas');
+              },
             ),
           ),
           Padding(
@@ -55,13 +70,13 @@ class ScreenHero extends StatelessWidget {
       ),
       floatingActionButton: IconButton.filled(
         style: const ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(Color(0xFFcdd6f4)),
+          backgroundColor: WidgetStatePropertyAll(clrText),
         ),
         icon: const Icon(
           Icons.add,
-          color: Color(0xFF1e1e2e),
+          color: clrBase,
         ),
-        onPressed: () {},
+        onPressed: () => bottomSheet(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: SizedBox(
