@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ficonsax/ficonsax.dart';
 
 import '../../widgets/bottom_sheet.dart';
 import '../../widgets/drawer.dart';
@@ -17,7 +18,7 @@ class ScreenHero extends StatelessWidget {
       drawer: showDrawer(context),
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.menu_rounded),
+          icon: const Icon(IconsaxOutline.menu_1),
           onPressed: () {
             scaffoldKey.currentState!.openDrawer();
           },
@@ -73,7 +74,7 @@ class ScreenHero extends StatelessWidget {
           backgroundColor: WidgetStatePropertyAll(clrText),
         ),
         icon: const Icon(
-          Icons.add,
+          IconsaxOutline.add,
           color: clrBase,
         ),
         onPressed: () => bottomSheet(context),
@@ -86,11 +87,11 @@ class ScreenHero extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.format_list_bulleted_rounded),
+              icon: const Icon(IconsaxOutline.note_2),
             ),
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.apps_rounded),
+              icon: const Icon(IconsaxOutline.note_1),
             ),
           ],
         ),

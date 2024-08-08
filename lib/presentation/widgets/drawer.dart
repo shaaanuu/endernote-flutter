@@ -1,3 +1,4 @@
+import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 
 ListTile _tiles({
@@ -29,24 +30,24 @@ Widget showDrawer(context) {
           height: 50,
         ),
         _tiles(
-          icn: Icons.settings,
+          icn: IconsaxOutline.setting_2,
           title: 'Settings',
           onTap: () {},
         ),
         _tiles(
-          icn: Icons.access_alarm,
+          icn: IconsaxOutline.activity,
           title: 'title',
         ),
         _tiles(
-          icn: Icons.accessible_outlined,
+          icn: IconsaxOutline.activity,
           title: 'title',
         ),
         _tiles(
-          icn: Icons.zoom_in_map_sharp,
+          icn: IconsaxOutline.activity,
           title: 'title',
         ),
         _tiles(
-          icn: Icons.catching_pokemon,
+          icn: IconsaxOutline.activity,
           title: 'title',
         ),
       ],

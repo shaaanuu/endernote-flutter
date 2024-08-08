@@ -1,6 +1,8 @@
-import 'package:endernote_flutter/presentation/screens/canvas/edit_mode/edit_mode.dart';
-import 'package:endernote_flutter/presentation/screens/canvas/preview_mode/preview_mode.dart';
+import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
+
+import 'edit_mode/edit_mode.dart';
+import 'preview_mode/preview_mode.dart';
 
 class ScreenCanvas extends StatelessWidget {
   const ScreenCanvas({super.key});
@@ -13,16 +15,20 @@ class ScreenCanvas extends StatelessWidget {
       valueListenable: editOrPreview,
       builder: (context, value, _) => Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(IconsaxOutline.arrow_left_2),
+          ),
           actions: [
             IconButton(
-              icon: Icon(value ? Icons.edit : Icons.preview),
+              icon: Icon(value ? IconsaxOutline.edit_2 : IconsaxOutline.book_1),
               onPressed: () {
                 editOrPreview.value = !editOrPreview.value;
               },
             ),
           ],
         ),
-        body: value ? PreviewMode() : EditMode(),
+        body: value ? const PreviewMode() : const EditMode(),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 
 ListTile _tiles({
@@ -31,12 +32,12 @@ void bottomSheet(context) => showModalBottomSheet(
           children: [
             const SizedBox(height: 20),
             _tiles(
-              icn: Icons.today_outlined,
+              icn: IconsaxOutline.note_favorite,
               title: 'Open today\'s daily note',
               onTap: () => Navigator.pushNamed(context, '/canvas'),
             ),
             _tiles(
-              icn: Icons.note_alt_outlined,
+              icn: IconsaxOutline.note_add,
               title: 'Create a new note',
               onTap: () => Navigator.pushNamed(context, '/canvas'),
             ),

@@ -54,8 +54,6 @@ class PreviewMode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController cntrl = TextEditingController();
-
     return Column(
       children: [
         Expanded(
