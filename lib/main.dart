@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: clrBase,
         appBarTheme: const AppBarTheme(
+          scrolledUnderElevation: 0,
           backgroundColor: clrBase,
           foregroundColor: clrText,
         ),

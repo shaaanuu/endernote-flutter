@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screen_canvas.dart';
+
 class EditMode extends StatelessWidget {
   const EditMode({super.key});
 
@@ -8,13 +10,14 @@ class EditMode extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        // color: Colors.red.withOpacity(0.1),
+        padding: const EdgeInsets.all(5),
+        color: Colors.black12,
         child: TextFormField(
-          
-          // controller: cntrl,
+          controller: textControl,
           expands: true,
           minLines: null,
           maxLines: null,
+          onChanged: (value) => print(textControl.text),
         ),
       ),
     );

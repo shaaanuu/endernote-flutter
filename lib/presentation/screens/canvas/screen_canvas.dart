@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'edit_mode/edit_mode.dart';
 import 'preview_mode/preview_mode.dart';
 
+TextEditingController textControl = TextEditingController();
+
 class ScreenCanvas extends StatelessWidget {
   const ScreenCanvas({super.key});
 
