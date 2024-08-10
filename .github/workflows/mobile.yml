@@ -57,24 +57,26 @@ jobs:
           body: "It's beta"
 
   build_linux:
-    name: 🐧 Build Linux App
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-          architecture: x64
-      - run: flutter pub get
-      - run: flutter build linux --release
-      - name: Upload Linux App to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/linux/x64/release/bundle/your_app_name
-          tag: v1.0-${{ github.run_number }}
-          overwrite: true
-          body: "It's beta"
+  name: 🐧 Build Linux App
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v3
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: "stable"
+        architecture: x64
+    - run: sudo apt-get update
+    - run: sudo apt-get install -y cmake ninja-build
+    - run: flutter pub get
+    - run: flutter build linux --release
+    - name: Upload Linux App to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: build/linux/x64/release/bundle/your_app_name
+        tag: v1.0-${{ github.run_number }}
+        overwrite: true
+        body: "It's beta"
 
   build_windows:
     name: 🪟 Build Windows App
