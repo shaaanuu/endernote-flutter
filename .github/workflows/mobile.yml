@@ -1,26 +1,24 @@
-name: Flutter Mobile Build
+name: Build
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
   workflow_dispatch:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     outputs:
       release_tag: ${{ steps.create_release.outputs.tag_name }}
     steps:
       - uses: actions/checkout@v4
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.24.0"
           channel: "stable"
       - run: flutter pub get
 
-      - name: Create GitHub Release Tag
+      - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         with:
@@ -30,27 +28,6 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  build_android:
-    needs: build
-    name: 🤖 Build Android APK
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.24.0"
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter build apk --release
-      - name: Upload Android APK
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/app/outputs/flutter-apk/app-release.apk
-          tag: ${{ needs.build.outputs.release_tag }}
-          overwrite: true
-          body: "It's beta"
 
   build_ios:
     needs: build
@@ -78,6 +55,27 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/ios/iphoneos/FlutterIpaExport.ipa
+          tag: ${{ needs.build.outputs.release_tag }}
+          overwrite: true
+          body: "It's beta"
+
+  build_android:
+    needs: build
+    name: 🤖 Build Android APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.0"
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - name: Upload Android APK
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/app/outputs/flutter-apk/app-release.apk
           tag: ${{ needs.build.outputs.release_tag }}
           overwrite: true
           body: "It's beta"
