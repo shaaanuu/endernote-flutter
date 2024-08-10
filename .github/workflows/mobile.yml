@@ -36,7 +36,7 @@ jobs:
           overwrite: true
           body: "It's beta"
 
-  build-android:
+  build_android:
     name: 🤖 Android Build
     runs-on: ubuntu-latest
     steps:
@@ -52,6 +52,66 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/app/outputs/flutter-apk/app-release.apk
+          tag: v1.0-${{ github.run_number }}
+          overwrite: true
+          body: "It's beta"
+
+  build_linux:
+    name: 🐧 Build Linux App
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          architecture: x64
+      - run: flutter pub get
+      - run: flutter build linux --release
+      - name: Upload Linux App to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/linux/x64/release/bundle/your_app_name
+          tag: v1.0-${{ github.run_number }}
+          overwrite: true
+          body: "It's beta"
+
+  build_windows:
+    name: 🪟 Build Windows App
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          architecture: x64
+      - run: flutter pub get
+      - run: flutter build windows --release
+      - name: Upload Windows App to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/windows/runner/Release/your_app_name.exe
+          tag: v1.0-${{ github.run_number }}
+          overwrite: true
+          body: "It's beta"
+
+  build_mac:
+    name: 🍏 Build macOS App
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          architecture: x64
+      - run: flutter pub get
+      - run: flutter build macos --release
+      - name: Upload macOS App to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/macos/Build/Release/your_app_name.app.zip
           tag: v1.0-${{ github.run_number }}
           overwrite: true
           body: "It's beta"
