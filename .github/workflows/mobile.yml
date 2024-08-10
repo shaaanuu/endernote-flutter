@@ -12,17 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: "zulu"
-          java-version: "11"
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.24.0"
           channel: "stable"
       - run: flutter pub get
-      - run: flutter build apk
+      - run: flutter build apk --release
       - name: 📦 Create GitHub Release for Android
+        id: create-release
         uses: actions/create-release@v1
         with:
           tag_name: v1.0.${{ github.run_number }}-android
@@ -32,12 +29,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Android APK
-        uses: actions/upload-release-asset@v1
+        uses: svenstaro/upload-release-action@v2
         with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: build/app/outputs/flutter-apk/app-release.apk
-          asset_name: app-release.apk
-          asset_content_type: application/vnd.android.package-archive
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/app/outputs/flutter-apk/app-release.apk
+          tag: v1.0.${{ github.run_number }}-android
+          overwrite: true
+          body: "It's beta"
 
   build_ios:
     name: 🎉 Build iOS IPA
@@ -54,6 +52,7 @@ jobs:
       - run: mv build/ios/iphoneos/Runner.app Payload
       - run: zip -r app.ipa Payload
       - name: 📦 Create GitHub Release for iOS
+        id: create-release
         uses: actions/create-release@v1
         with:
           tag_name: v1.0.${{ github.run_number }}-ios
@@ -63,9 +62,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload iOS IPA
-        uses: actions/upload-release-asset@v1
+        uses: svenstaro/upload-release-action@v2
         with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: app.ipa
-          asset_name: app.ipa
-          asset_content_type: application/octet-stream
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: app.ipa
+          tag: v1.0.${{ github.run_number }}-ios
+          overwrite: true
+          body: "It's beta"
