@@ -74,7 +74,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/windows/runner/Release/*.exe
+          file: build/windows/runner/Release/endernote_flutter.exe
           tag: v1.0-${{ github.run_number }}
           overwrite: true
           body: "It's beta"
@@ -95,7 +95,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/macos/Build/Release/your_app_name.app.zip
+          file: build/macos/Build/Release/endernote_flutter.app
           tag: v1.0-${{ github.run_number }}
           overwrite: true
           body: "It's beta"
@@ -118,7 +118,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/linux/x64/release/bundle/your_app_name.deb
+          file: build/linux/x64/release/bundle/endernote_flutter
           tag: v1.0-${{ github.run_number }}
           overwrite: true
           body: "It's beta"
