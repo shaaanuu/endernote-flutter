@@ -1,60 +1,47 @@
-name: Build
+name: Flutter Mobile Build
 
 on:
-  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
-  build-ios:
-    name: 🎉 iOS Build
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          architecture: x64
-      - run: flutter pub get
-      - run: pod repo update
-        working-directory: ios
-
-      - run: flutter build ios --release --no-codesign
-
-      - run: mkdir Payload
-        working-directory: build/ios/iphoneos
-
-      - run: mv Runner.app/ Payload
-        working-directory: build/ios/iphoneos
-
-      - name: Zip output
-        run: zip -qq -r -9 FlutterIpaExport.ipa Payload
-        working-directory: build/ios/iphoneos
-
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          file: build/ios/iphoneos/FlutterIpaExport.ipa
-          tag: v1.0
-          overwrite: true
-          body: "This is first release"
-
-  build-android:
-    name: 🤖 Android Build
+  build_android:
+    name: 🤖 Build Android APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "11"
       - uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          architecture: x64
+          flutter-version: "3.10.0"
+          channel: "stable"
       - run: flutter pub get
-      - run: flutter build apk --release
-
-      - name: Upload APK to release
-        uses: svenstaro/upload-release-action@v2
+      - run: flutter build apk
+      - uses: actions/upload-artifact@v3
         with:
-          file: build/app/outputs/flutter-apk/app-release.apk
-          tag: v1.0
-          overwrite: true
-          body: "This is first release"
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  build_ios:
+    name: 🎉 Build iOS IPA
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.10.0"
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign
+      - run: mkdir -p Payload
+      - run: mv build/ios/iphoneos/Runner.app Payload
+      - run: zip -r app.ipa Payload
+      - uses: actions/upload-artifact@v3
+        with:
+          name: release-ipa
+          path: app.ipa
