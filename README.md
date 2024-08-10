@@ -6,8 +6,8 @@ Welcome to EnderNote! 🚀 EnderNote is a sleek and powerful note-taking applica
 
 - ⚡ **Lightning Fast**: Utilizes Flutter for smooth performance and quick load times.
 - 📝 **Markdown Support**: Write notes in Markdown with live preview.
-- 🔍 **Full-Text Search**: Quickly find your notes with robust search functionality.
-- 📁 **Organized Folders**: Organize your notes into folders for better management.
+- 🔍 **Full-Text Search**: Quickly find your notes with robust search functionality (coming soon).
+- 📁 **Organized Folders**: Organize your notes into folders for better management (coming soon).
 - ☁️ **Cloud Sync**: Sync your notes across devices (coming soon).
 
 ## Getting Started
