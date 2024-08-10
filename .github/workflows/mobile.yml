@@ -1,4 +1,4 @@
-name: Flutter Mobile Build
+name: Flutter Build
 
 on:
   push:
@@ -7,9 +7,27 @@ on:
     branches: ["main"]
 
 jobs:
+  create_release_tag:
+    name: Create Release Tag
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.create_release.outputs.tag_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          release_name: "Release v1.0.${{ github.run_number }}"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build_android:
     name: 🤖 Build Android APK
     runs-on: ubuntu-latest
+    needs: create_release_tag
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -18,28 +36,18 @@ jobs:
           channel: "stable"
       - run: flutter pub get
       - run: flutter build apk --release
-      - name: 📦 Create GitHub Release for Android
-        id: create-release
-        uses: actions/create-release@v1
-        with:
-          tag_name: v1.0.${{ github.run_number }}-android
-          release_name: "Android Release v1.0.${{ github.run_number }}"
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Android APK
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-release-asset@v1
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/app/outputs/flutter-apk/app-release.apk
-          tag: v1.0.${{ github.run_number }}-android
-          overwrite: true
-          body: "It's beta"
+          upload_url: ${{ needs.create_release_tag.outputs.upload_url }}
+          asset_path: build/app/outputs/flutter-apk/app-release.apk
+          asset_name: app-release.apk
+          asset_content_type: application/vnd.android.package-archive
 
   build_ios:
     name: 🎉 Build iOS IPA
     runs-on: macos-latest
+    needs: create_release_tag
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -51,21 +59,10 @@ jobs:
       - run: mkdir -p Payload
       - run: mv build/ios/iphoneos/Runner.app Payload
       - run: zip -r app.ipa Payload
-      - name: 📦 Create GitHub Release for iOS
-        id: create-release
-        uses: actions/create-release@v1
-        with:
-          tag_name: v1.0.${{ github.run_number }}-ios
-          release_name: "iOS Release v1.0.${{ github.run_number }}"
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload iOS IPA
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-release-asset@v1
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: app.ipa
-          tag: v1.0.${{ github.run_number }}-ios
-          overwrite: true
-          body: "It's beta"
+          upload_url: ${{ needs.create_release_tag.outputs.upload_url }}
+          asset_path: app.ipa
+          asset_name: app.ipa
+          asset_content_type: application/octet-stream
