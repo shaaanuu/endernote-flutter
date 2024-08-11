@@ -96,7 +96,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/macos/Build/Products/Release/endernote_flutter.zip
+          file: build/macos/Build/Products/Release/mac.zip
           tag: v1.0-${{ github.run_number }}
           overwrite: true
           body: "It's beta"
