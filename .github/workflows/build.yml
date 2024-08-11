@@ -91,7 +91,7 @@ jobs:
           channel: stable
       - run: flutter pub get
       - run: flutter build macos --release
-      - run: cd build/macos/Build/Products/Release/ && zip -r endernote_flutter.zip endernote_flutter.app/
+      - run: cd build/macos/Build/Products/Release/ && zip -r endernote_flutter.zip endernote_flutter.app
       - name: Upload macOS App to release
         uses: svenstaro/upload-release-action@v2
         with:
