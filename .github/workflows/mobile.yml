@@ -92,7 +92,7 @@ jobs:
       - run: flutter pub get
       - run: flutter build macos --release
       - run: cd build/macos/Build/Products/Release/
-      - run: zip -r endernote_flutter.zip endernote_flutter.app
+      - run: zip -r endernote_flutter.zip build/macos/Build/Products/Release/endernote_flutter.app
       - name: Upload macOS App to release
         uses: svenstaro/upload-release-action@v2
         with:
