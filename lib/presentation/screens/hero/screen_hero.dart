@@ -77,7 +77,7 @@ class ScreenHero extends StatelessWidget {
           IconsaxOutline.add,
           color: clrBase,
         ),
-        onPressed: () => bottomSheet(context),
+        onPressed: () => showCustomBottomSheet(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: SizedBox(
