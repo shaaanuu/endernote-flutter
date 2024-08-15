@@ -1,10 +1,10 @@
+import 'package:endernote_flutter/presentation/theme/endernote_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ficonsax/ficonsax.dart';
 
 import '../../widgets/bottom_sheet.dart';
 import '../../widgets/drawer.dart';
-import '../../widgets/konstants.dart';
 
 class ScreenHero extends StatelessWidget {
   const ScreenHero({super.key});
