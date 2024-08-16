@@ -55,16 +55,14 @@ class ScreenHero extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
               child: const Text('Create new note'),
-              onPressed: () {
-                Navigator.pushNamed(context, '/canvas');
-              },
+              onPressed: () => Navigator.pushNamed(context, '/canvas'),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
               child: const Text('Open a note'),
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(context, '/home'),
             ),
           ),
         ],

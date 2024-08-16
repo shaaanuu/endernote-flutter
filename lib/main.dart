@@ -1,3 +1,4 @@
+import 'package:endernote_flutter/presentation/screens/home/screen_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/canvas': (context) => const ScreenCanvas(),
+        '/home': (context) => const ScreenHome(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
