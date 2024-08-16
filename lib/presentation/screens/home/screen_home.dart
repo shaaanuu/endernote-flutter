@@ -1,6 +1,7 @@
-import 'package:endernote_flutter/presentation/widgets/konstants.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
+
+import '../../theme/endernote_theme.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
