@@ -15,6 +15,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   flutter_markdown: ^0.7.3
   ficonsax: ^0.0.3
+  easy_url_launcher: ^0.0.7
 
 dev_dependencies:
   flutter_test:

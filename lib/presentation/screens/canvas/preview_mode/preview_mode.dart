@@ -1,3 +1,4 @@
+import 'package:easy_url_launcher/easy_url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
@@ -15,6 +16,9 @@ class PreviewMode extends StatelessWidget {
           child: Markdown(
             data: textControl.text,
             styleSheet: mdTheme(),
+            onTapLink: (text, href, title) async => EasyLauncher.url(
+              url: href.toString(),
+            ),
           ),
         ),
       ],
