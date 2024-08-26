@@ -1,6 +1,6 @@
-import 'package:endernote_flutter/bloc/notes/note_events.dart';
-import 'package:endernote_flutter/bloc/notes/note_states.dart';
-import 'package:endernote_flutter/models/note_model.dart';
+import 'package:endernote/bloc/notes/note_events.dart';
+import 'package:endernote/bloc/notes/note_states.dart';
+import 'package:endernote/models/note_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';

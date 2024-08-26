@@ -1,5 +1,5 @@
-import 'package:endernote_flutter/bloc/notes/note_bloc.dart';
-import 'package:endernote_flutter/bloc/notes/note_states.dart';
+import 'package:endernote/bloc/notes/note_bloc.dart';
+import 'package:endernote/bloc/notes/note_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

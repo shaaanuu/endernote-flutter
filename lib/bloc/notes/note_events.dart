@@ -1,4 +1,4 @@
-import 'package:endernote_flutter/models/note_model.dart';
+import 'package:endernote/models/note_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class NoteBlocEvent extends Equatable {}
