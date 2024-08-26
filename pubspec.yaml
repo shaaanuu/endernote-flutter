@@ -1,5 +1,5 @@
-name: endernote_flutter
-description: "A new Flutter project."
+name: endernote
+description: "Your versatile note-taking companion. Craft, create, and unleash your ideas with ease!"
 
 version: 1.0.0+1
 
@@ -19,6 +19,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   uuid: ^4.4.2
   intl: ^0.19.0
+  easy_url_launcher: ^0.0.7
 
 dev_dependencies:
   flutter_test:
