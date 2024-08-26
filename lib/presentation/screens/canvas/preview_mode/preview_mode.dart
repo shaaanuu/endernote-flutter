@@ -1,23 +1,31 @@
+import 'package:endernote_flutter/bloc/notes/note_bloc.dart';
+import 'package:endernote_flutter/bloc/notes/note_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../theme/markdown_theme.dart';
-import '../screen_canvas.dart';
 
 class PreviewMode extends StatelessWidget {
-  const PreviewMode({super.key});
+  const PreviewMode({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Markdown(
-            data: textControl.text,
-            styleSheet: mdTheme(),
-          ),
-        ),
-      ],
+    return BlocBuilder<NoteBloc, NoteBlocState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            Expanded(
+              child: Markdown(
+                data: state.noteTextController!.text,
+                styleSheet: mdTheme(),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
