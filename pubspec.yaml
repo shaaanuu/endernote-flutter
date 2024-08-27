@@ -15,6 +15,10 @@ dependencies:
   flutter_svg: ^2.0.10+1
   flutter_markdown: ^0.7.3
   ficonsax: ^0.0.3
+  equatable: ^2.0.5
+  flutter_bloc: ^8.1.6
+  uuid: ^4.4.2
+  intl: ^0.19.0
   easy_url_launcher: ^0.0.7
 
 dev_dependencies:

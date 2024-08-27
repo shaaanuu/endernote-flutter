@@ -1,4 +1,6 @@
+import 'package:endernote/bloc/notes/note_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'presentation/screens/canvas/screen_canvas.dart';
 import 'presentation/screens/hero/screen_hero.dart';
@@ -14,16 +16,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Endernote',
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/canvas': (context) => const ScreenCanvas(),
-        '/home': (context) => const ScreenHome(),
-      },
-      theme: enderNoteTheme,
-      home: const ScreenHero(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          lazy: false,
+          create: (context) => NoteBloc(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Endernote',
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          '/canvas': (context) => const ScreenCanvas(),
+          '/home': (context) => const ScreenHome(),
+        },
+        theme: enderNoteTheme,
+        home: const ScreenHero(),
+      ),
     );
   }
 }

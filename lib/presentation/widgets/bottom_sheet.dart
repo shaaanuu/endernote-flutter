@@ -1,5 +1,8 @@
+import 'package:endernote/bloc/notes/note_bloc.dart';
+import 'package:endernote/bloc/notes/note_events.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomTile extends StatelessWidget {
   final IconData icn;
@@ -48,7 +51,10 @@ class BottomSheetContent extends StatelessWidget {
           CustomTile(
             icn: IconsaxOutline.note_add,
             title: 'Create a new note',
-            onTap: () => Navigator.pushNamed(context, '/canvas'),
+            onTap: () {
+              context.read<NoteBloc>().add(CreateNote());
+              Navigator.pushNamed(context, '/canvas');
+            },
           ),
         ],
       ),
