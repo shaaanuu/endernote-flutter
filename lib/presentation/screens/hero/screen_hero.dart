@@ -1,10 +1,10 @@
-import 'package:endernote/bloc/notes/note_bloc.dart';
-import 'package:endernote/bloc/notes/note_events.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ficonsax/ficonsax.dart';
 
+import '../../../bloc/notes/note_bloc.dart';
+import '../../../bloc/notes/note_events.dart';
 import '../../theme/endernote_theme.dart';
 import '../../widgets/bottom_sheet.dart';
 import '../../widgets/drawer.dart';

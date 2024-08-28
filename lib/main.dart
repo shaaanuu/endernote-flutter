@@ -1,7 +1,7 @@
-import 'package:endernote/bloc/notes/note_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/notes/note_bloc.dart';
 import 'presentation/screens/canvas/screen_canvas.dart';
 import 'presentation/screens/hero/screen_hero.dart';
 import 'presentation/screens/home/screen_home.dart';

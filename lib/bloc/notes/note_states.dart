@@ -1,6 +1,7 @@
-import 'package:endernote/models/note_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../models/note_model.dart';
 
 class NoteBlocState extends Equatable {
   final NoteModel? currentNote;

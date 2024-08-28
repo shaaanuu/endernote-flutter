@@ -1,9 +1,9 @@
-import 'package:endernote/bloc/notes/note_bloc.dart';
-import 'package:endernote/bloc/notes/note_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+import '../../../../bloc/notes/note_bloc.dart';
+import '../../../../bloc/notes/note_states.dart';
 import '../../../theme/markdown_theme.dart';
 
 class PreviewMode extends StatelessWidget {

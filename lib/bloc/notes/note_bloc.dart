@@ -1,9 +1,10 @@
-import 'package:endernote/bloc/notes/note_events.dart';
-import 'package:endernote/bloc/notes/note_states.dart';
-import 'package:endernote/models/note_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../models/note_model.dart';
+import 'note_events.dart';
+import 'note_states.dart';
 
 class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
   NoteBloc() : super(NoteBlocState.initial()) {

@@ -1,11 +1,11 @@
-import 'package:endernote/bloc/notes/note_bloc.dart';
-import 'package:endernote/bloc/notes/note_events.dart';
-import 'package:endernote/bloc/notes/note_states.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../bloc/notes/note_bloc.dart';
+import '../../../bloc/notes/note_events.dart';
+import '../../../bloc/notes/note_states.dart';
 import '../../theme/endernote_theme.dart';
 
 class ScreenHome extends StatelessWidget {
