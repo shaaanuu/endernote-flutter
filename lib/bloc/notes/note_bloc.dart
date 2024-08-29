@@ -66,25 +66,28 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
 
     on<SaveNoteChanges>(
       (event, emit) {
-        emit(state.copyWith(isLoading: true));
+        if (state.noteTextController!.text != "") {
+          emit(state.copyWith(isLoading: true));
 
-        NoteModel updatedNote = state.currentNote!;
+          NoteModel updatedNote = state.currentNote!;
 
-        updatedNote.text = state.noteTextController!.text;
-        if (state.noteTitleController!.text.isEmpty) {
-          if (state.noteTextController!.text.length < 10) {
-            updatedNote.title = "New Note";
+          updatedNote.text = state.noteTextController!.text;
+          if (state.noteTitleController!.text.isEmpty) {
+            if (state.noteTextController!.text.length < 10) {
+              updatedNote.title = "New Note";
+            } else {
+              updatedNote.title =
+                  state.noteTextController!.text.substring(0, 10);
+            }
           } else {
-            updatedNote.title = state.noteTextController!.text.substring(0, 10);
+            updatedNote.title = state.noteTitleController!.text;
           }
-        } else {
-          updatedNote.title = state.noteTitleController!.text;
-        }
 
-        emit(state.copyWith(
-          currentNote: updatedNote,
-          isLoading: false,
-        ));
+          emit(state.copyWith(
+            currentNote: updatedNote,
+            isLoading: false,
+          ));
+        }
       },
     );
   }

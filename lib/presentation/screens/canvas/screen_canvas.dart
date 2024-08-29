@@ -31,8 +31,15 @@ class _ScreenCanvasState extends State<ScreenCanvas> {
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                context.read<NoteBloc>().add(SaveNoteChanges());
-                context.read<NoteBloc>().add(ChangeEditMode());
+                if (state.noteTextController!.text == "") {
+                  context
+                      .read<NoteBloc>()
+                      .add(DeleteNote(noteId: state.currentNote!.uuid));
+                } else {
+                  context.read<NoteBloc>().add(SaveNoteChanges());
+                  context.read<NoteBloc>().add(ChangeEditMode());
+                }
+
                 Navigator.pop(context);
               },
               icon: const Icon(IconsaxOutline.arrow_left_2),
@@ -52,11 +59,15 @@ class _ScreenCanvasState extends State<ScreenCanvas> {
             //       ),
             actions: [
               IconButton(
-                icon: Icon(state.isEditing
-                    ? IconsaxOutline.edit_2
-                    : IconsaxOutline.book_1),
+                icon: Icon(
+                  state.isEditing
+                      ? IconsaxOutline.edit_2
+                      : IconsaxOutline.book_1,
+                ),
                 onPressed: () {
-                  context.read<NoteBloc>().add(SaveNoteChanges());
+                  if (state.noteTextController!.text != "") {
+                    context.read<NoteBloc>().add(SaveNoteChanges());
+                  }
 
                   context.read<NoteBloc>().add(ChangeEditMode());
                 },
