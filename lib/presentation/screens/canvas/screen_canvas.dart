@@ -37,17 +37,19 @@ class _ScreenCanvasState extends State<ScreenCanvas> {
               },
               icon: const Icon(IconsaxOutline.arrow_left_2),
             ),
-            title: state.isEditing
-                ? TextField(
-                    controller: state.noteTitleController!,
-                    decoration: const InputDecoration(border: InputBorder.none),
-                  )
-                : Text(state.noteTitleController!.text.isEmpty
-                    ? !(state.noteTextController!.text.isEmpty ||
-                            state.noteTextController!.text.length < 10)
-                        ? state.noteTextController!.text.substring(0, 10)
-                        : state.noteTitleController!.text
-                    : state.noteTitleController!.text),
+            // title: state.isEditing
+            //     ? TextField(
+            //         controller: state.noteTitleController!,
+            //         decoration: const InputDecoration(border: InputBorder.none),
+            //       )
+            //     : Text(
+            //         state.noteTitleController!.text.isEmpty
+            //             ? !(state.noteTextController!.text.isEmpty ||
+            //                     state.noteTextController!.text.length < 10)
+            //                 ? state.noteTextController!.text.substring(0, 10)
+            //                 : state.noteTitleController!.text
+            //             : state.noteTitleController!.text,
+            //       ),
             actions: [
               IconButton(
                 icon: Icon(state.isEditing

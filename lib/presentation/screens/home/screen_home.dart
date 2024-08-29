@@ -42,7 +42,8 @@ class ScreenHome extends StatelessWidget {
                 leading: const Icon(IconsaxOutline.note),
                 title: Text(state.notes[index].title),
                 subtitle: Text(
-                    "${TimeOfDay.fromDateTime(state.notes[index].creationDate).format(context)} on ${DateFormat('dd-MM-yyyy').format(state.notes[index].creationDate)}"),
+                  "${DateFormat.jm().format(state.notes[index].creationDate)} on ${DateFormat('dd-MM-yyyy').format(state.notes[index].creationDate)}",
+                ),
               ),
             ),
           );
