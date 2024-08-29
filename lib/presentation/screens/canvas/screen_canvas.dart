@@ -44,6 +44,19 @@ class _ScreenCanvasState extends State<ScreenCanvas> {
               },
               icon: const Icon(IconsaxOutline.arrow_left_2),
             ),
+/* 
+
+ Use this so, all the appbar titles will be same size
+
+            title: const Text(
+              'note',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+
+*/
+
             // title: state.isEditing
             //     ? TextField(
             //         controller: state.noteTitleController!,
@@ -57,6 +70,7 @@ class _ScreenCanvasState extends State<ScreenCanvas> {
             //                 : state.noteTitleController!.text
             //             : state.noteTitleController!.text,
             //       ),
+
             actions: [
               IconButton(
                 icon: Icon(

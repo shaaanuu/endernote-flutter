@@ -19,7 +19,12 @@ class ScreenHome extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(IconsaxOutline.arrow_left_2),
         ),
-        title: const Text("All Notes"),
+        title: const Text(
+          'All Notes',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
         centerTitle: true,
       ),
       body: BlocBuilder<NoteBloc, NoteBlocState>(
