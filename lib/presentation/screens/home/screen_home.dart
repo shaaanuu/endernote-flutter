@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:endernote/models/note_model.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,8 +32,9 @@ class ScreenHome extends StatelessWidget {
       ),
       body: BlocBuilder<NoteBloc, NoteBlocState>(
         builder: (context, state) {
+          List<NoteModel> reversedList = state.notes.reversed.toList();
           return ListView.builder(
-            itemCount: state.notes.length,
+            itemCount: reversedList.length,
             itemBuilder: (context, index) => Container(
               margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -41,13 +45,13 @@ class ScreenHome extends StatelessWidget {
                 onTap: () {
                   context
                       .read<NoteBloc>()
-                      .add(ChangeNote(newNote: state.notes[index]));
+                      .add(ChangeNote(newNote: reversedList[index]));
                   Navigator.pushNamed(context, '/canvas');
                 },
                 leading: const Icon(IconsaxOutline.note),
-                title: Text(state.notes[index].title),
+                title: Text(reversedList[index].title),
                 subtitle: Text(
-                  "${DateFormat.jm().format(state.notes[index].creationDate)} on ${DateFormat('dd-MM-yyyy').format(state.notes[index].creationDate)}",
+                  "${DateFormat.jm().format(reversedList[index].creationDate)} on ${DateFormat('dd-MM-yyyy').format(reversedList[index].creationDate)}",
                 ),
               ),
             ),

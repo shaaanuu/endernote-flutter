@@ -27,6 +27,19 @@ class _ScreenCanvasState extends State<ScreenCanvas> {
   Widget build(BuildContext context) {
     return BlocBuilder<NoteBloc, NoteBlocState>(
       builder: (context, state) {
+        String noteTitle = "";
+
+        if (state.noteTitleController!.text.isEmpty) {
+          String firstLine = state.noteTextController!.text.split("\n").first;
+          if (firstLine.length >= 10) {
+            noteTitle = state.noteTextController!.text.substring(0, 10);
+          } else {
+            noteTitle = firstLine;
+          }
+        } else {
+          noteTitle = state.noteTitleController!.text;
+        }
+
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -57,20 +70,14 @@ class _ScreenCanvasState extends State<ScreenCanvas> {
 
 */
 
-            // title: state.isEditing
-            //     ? TextField(
-            //         controller: state.noteTitleController!,
-            //         decoration: const InputDecoration(border: InputBorder.none),
-            //       )
-            //     : Text(
-            //         state.noteTitleController!.text.isEmpty
-            //             ? !(state.noteTextController!.text.isEmpty ||
-            //                     state.noteTextController!.text.length < 10)
-            //                 ? state.noteTextController!.text.substring(0, 10)
-            //                 : state.noteTitleController!.text
-            //             : state.noteTitleController!.text,
-            //       ),
-
+            title: state.isEditing
+                ? TextField(
+                    controller: state.noteTitleController!,
+                    decoration: const InputDecoration(border: InputBorder.none),
+                  )
+                : Text(
+                    noteTitle,
+                  ),
             actions: [
               IconButton(
                 icon: Icon(

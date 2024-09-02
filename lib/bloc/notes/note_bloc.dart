@@ -72,12 +72,13 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
           NoteModel updatedNote = state.currentNote!;
 
           updatedNote.text = state.noteTextController!.text;
+
           if (state.noteTitleController!.text.isEmpty) {
-            if (state.noteTextController!.text.length < 10) {
-              updatedNote.title = "New Note";
+            String firstLine = state.noteTextController!.text.split("\n").first;
+            if (firstLine.length >= 10) {
+              updatedNote.title = firstLine.substring(0, 10);
             } else {
-              updatedNote.title =
-                  state.noteTextController!.text.substring(0, 10);
+              updatedNote.title = firstLine;
             }
           } else {
             updatedNote.title = state.noteTitleController!.text;
