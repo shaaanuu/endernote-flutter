@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:endernote/models/note_model.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../bloc/notes/note_bloc.dart';
 import '../../../bloc/notes/note_events.dart';
 import '../../../bloc/notes/note_states.dart';
+import '../../../models/note_model.dart';
 import '../../theme/endernote_theme.dart';
 
 class ScreenHome extends StatelessWidget {
@@ -43,9 +41,11 @@ class ScreenHome extends StatelessWidget {
               ),
               child: ListTile(
                 onTap: () {
-                  context
-                      .read<NoteBloc>()
-                      .add(ChangeNote(newNote: reversedList[index]));
+                  context.read<NoteBloc>().add(
+                        ChangeNote(
+                          newNote: reversedList[index],
+                        ),
+                      );
                   Navigator.pushNamed(context, '/canvas');
                 },
                 leading: const Icon(IconsaxOutline.note),
