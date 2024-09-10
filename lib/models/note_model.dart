@@ -1,11 +1,20 @@
 import 'dart:convert';
+import 'package:isar/isar.dart';
 
+part 'note_model.g.dart';
+
+@Collection()
 class NoteModel {
+  Id id = Isar.autoIncrement;
+
+  @Index(unique: true)
+  late String uuid;
+
   String text = "";
   String title = "";
-  final DateTime creationDate;
-  DateTime lastUpdated;
-  final String uuid;
+  late DateTime creationDate;
+  late DateTime lastUpdated;
+
   NoteModel({
     this.text = "",
     this.title = "",

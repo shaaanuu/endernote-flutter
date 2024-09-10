@@ -8,7 +8,6 @@ class NoteBlocState extends Equatable {
   final bool isLoading;
   final List<NoteModel> notes;
   final bool isSaving;
-  final bool isEditing;
   final TextEditingController? noteTextController;
   final TextEditingController? noteTitleController;
 
@@ -17,7 +16,6 @@ class NoteBlocState extends Equatable {
     required this.isLoading,
     required this.notes,
     required this.isSaving,
-    required this.isEditing,
     required this.noteTextController,
     required this.noteTitleController,
   });
@@ -27,18 +25,17 @@ class NoteBlocState extends Equatable {
         currentNote: null,
         isLoading: false,
         notes: [],
-        isEditing: false,
         noteTextController: null,
         noteTitleController: null,
       );
 
   @override
   List<Object> get props =>
-      [currentNote.toString(), isLoading, notes, isSaving, isEditing];
+      [currentNote.toString(), isLoading, notes, isSaving];
 
   @override
   String toString() {
-    return 'NoteBlocState(currentNote: $currentNote, isLoading: $isLoading, notes: $notes, isSaving: $isSaving, isEditing: $isEditing )';
+    return 'NoteBlocState(currentNote: $currentNote, isLoading: $isLoading, notes: $notes, isSaving: $isSaving)';
   }
 
   NoteBlocState copyWith({
@@ -46,7 +43,6 @@ class NoteBlocState extends Equatable {
     bool? isLoading,
     List<NoteModel>? notes,
     bool? isSaving,
-    bool? isEditing,
     TextEditingController? noteTextController,
     TextEditingController? noteTitleController,
   }) {
@@ -55,7 +51,6 @@ class NoteBlocState extends Equatable {
       isLoading: isLoading ?? this.isLoading,
       notes: notes ?? this.notes,
       isSaving: isSaving ?? this.isSaving,
-      isEditing: isEditing ?? this.isEditing,
       noteTextController: noteTextController ?? this.noteTextController,
       noteTitleController: noteTitleController ?? this.noteTitleController,
     );

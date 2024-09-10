@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:isar/isar.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../models/note_model.dart';
@@ -7,12 +8,14 @@ import 'note_events.dart';
 import 'note_states.dart';
 
 class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
-  NoteBloc() : super(NoteBlocState.initial()) {
+  final Isar isar;
+
+  NoteBloc({required this.isar}) : super(NoteBlocState.initial()) {
     _init();
   }
 
   void _init() {
-    on<CreateNote>((event, emit) {
+    on<CreateNote>((event, emit) async {
       emit(state.copyWith(isLoading: true));
 
       NoteModel newNote = NoteModel(
@@ -21,21 +24,31 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
         uuid: const Uuid().v4(),
       );
 
+      // Save new note
+      await isar.writeTxn(() async {
+        await isar.noteModels.put(newNote);
+      });
+
       emit(state.copyWith(
         currentNote: newNote,
         notes: [...state.notes, newNote],
         isLoading: false,
-        isEditing: true,
         noteTextController: TextEditingController(),
         noteTitleController: TextEditingController(),
       ));
     });
 
-    on<ChangeNote>((event, emit) {
+    on<ChangeNote>((event, emit) async {
       emit(state.copyWith(isLoading: true));
+
       List<NoteModel> notes = state.notes
         ..removeWhere((note) => note.uuid == event.newNote.uuid);
       NoteModel newNote = event.newNote;
+
+      // Update note
+      await isar.writeTxn(() async {
+        await isar.noteModels.put(newNote);
+      });
 
       emit(state.copyWith(
         currentNote: newNote,
@@ -46,11 +59,16 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
       ));
     });
 
-    on<DeleteNote>((event, emit) {
+    on<DeleteNote>((event, emit) async {
       emit(state.copyWith(isLoading: true));
 
       List<NoteModel> notes = state.notes
         ..removeWhere((note) => note.uuid == event.noteId);
+
+      // Delete note
+      await isar.writeTxn(() async {
+        await isar.noteModels.deleteByUuid(event.noteId);
+      });
 
       emit(state.copyWith(
         notes: [...notes],
@@ -58,38 +76,69 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
       ));
     });
 
-    on<ChangeEditMode>(
-      (event, emit) {
-        emit(state.copyWith(isEditing: !state.isEditing));
-      },
-    );
+    on<SaveNoteChanges>((event, emit) async {
+      print("SaveNoteChanges event triggered");
 
-    on<SaveNoteChanges>(
-      (event, emit) {
-        if (state.noteTextController!.text != "") {
-          emit(state.copyWith(isLoading: true));
+      if (state.noteTextController?.text.isNotEmpty ?? false) {
+        emit(state.copyWith(isLoading: true));
 
-          NoteModel updatedNote = state.currentNote!;
-
+        // Ensure the current note is not null
+        NoteModel? updatedNote = state.currentNote;
+        if (updatedNote != null) {
           updatedNote.text = state.noteTextController!.text;
 
-          if (state.noteTitleController!.text.isEmpty) {
+          final noteTitleText = state.noteTitleController?.text ?? "";
+          if (noteTitleText.isEmpty) {
             String firstLine = state.noteTextController!.text.split("\n").first;
-            if (firstLine.length >= 10) {
-              updatedNote.title = firstLine.substring(0, 10);
-            } else {
-              updatedNote.title = firstLine;
-            }
+            updatedNote.title = (firstLine.length >= 10)
+                ? firstLine.substring(0, 10)
+                : firstLine;
           } else {
-            updatedNote.title = state.noteTitleController!.text;
+            updatedNote.title = noteTitleText;
           }
 
-          emit(state.copyWith(
-            currentNote: updatedNote,
-            isLoading: false,
-          ));
+          try {
+            print(
+                "Saving note to Isar: ${updatedNote.title}, ${updatedNote.text}");
+
+            // Update note
+            await isar.writeTxn(() async {
+              await isar.noteModels.put(updatedNote);
+            });
+
+            print("Note saved successfully!");
+
+            emit(state.copyWith(
+              currentNote: updatedNote,
+              isLoading: false,
+            ));
+          } catch (e) {
+            print("Failed to update note: $e");
+            emit(state.copyWith(isLoading: false));
+          }
+        } else {
+          print("currentNote is null, cannot update");
         }
-      },
-    );
+      } else {
+        print("Note text is empty, nothing to save");
+      }
+    });
+
+    on<LoadNotes>((event, emit) async {
+      try {
+        emit(state.copyWith(isLoading: true));
+
+        // Fetch notes from Isar
+        final notes = await isar.noteModels.where().findAll();
+
+        print("Notes loaded: ${notes.length}");
+
+        // Update state with loaded notes
+        emit(state.copyWith(notes: notes, isLoading: false));
+      } catch (e) {
+        print("Error loading notes: $e");
+        emit(state.copyWith(isLoading: false));
+      }
+    });
   }
 }

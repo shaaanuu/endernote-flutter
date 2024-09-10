@@ -39,7 +39,7 @@ class _EditModeState extends State<EditMode> {
             child: TextField(
               focusNode: focusNode,
               decoration: const InputDecoration(border: InputBorder.none),
-              controller: state.noteTextController!,
+              controller: state.noteTextController ?? TextEditingController(),
               expands: true,
               minLines: null,
               maxLines: null,

@@ -14,6 +14,8 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<NoteBloc>().add(LoadNotes());
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -30,7 +32,21 @@ class ScreenHome extends StatelessWidget {
       ),
       body: BlocBuilder<NoteBloc, NoteBlocState>(
         builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
           List<NoteModel> reversedList = state.notes.reversed.toList();
+
+          if (reversedList.isEmpty) {
+            return const Center(
+              child: Text(
+                "No notes available",
+                style: TextStyle(fontSize: 16),
+              ),
+            );
+          }
+
           return ListView.builder(
             itemCount: reversedList.length,
             itemBuilder: (context, index) => Container(

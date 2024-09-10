@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 import '../../models/note_model.dart';
 
 abstract class NoteBlocEvent extends Equatable {}
@@ -32,7 +31,7 @@ class SaveNoteChanges extends NoteBlocEvent {
   List<Object?> get props => [];
 }
 
-class ChangeEditMode extends NoteBlocEvent {
+class LoadNotes extends NoteBlocEvent {
   @override
   List<Object?> get props => [];
 }

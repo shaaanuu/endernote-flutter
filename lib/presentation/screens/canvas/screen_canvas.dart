@@ -8,20 +8,10 @@ import '../../../bloc/notes/note_states.dart';
 import 'edit_mode/edit_mode.dart';
 import 'preview_mode/preview_mode.dart';
 
-TextEditingController textControl = TextEditingController();
+class ScreenCanvas extends StatelessWidget {
+  ScreenCanvas({super.key});
 
-class ScreenCanvas extends StatefulWidget {
-  const ScreenCanvas({super.key});
-
-  @override
-  State<ScreenCanvas> createState() => _ScreenCanvasState();
-}
-
-class _ScreenCanvasState extends State<ScreenCanvas> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  final ValueNotifier editOrPreview = ValueNotifier<bool>(true);
 
   @override
   Widget build(BuildContext context) {
@@ -29,69 +19,75 @@ class _ScreenCanvasState extends State<ScreenCanvas> {
       builder: (context, state) {
         String noteTitle = "";
 
-        if (state.noteTitleController!.text.isEmpty) {
-          String firstLine = state.noteTextController!.text.split("\n").first;
+        if ((state.noteTitleController?.text.isEmpty ?? true)) {
+          String firstLine =
+              (state.noteTextController?.text.split("\n").first ?? "");
           if (firstLine.length >= 10) {
-            noteTitle = state.noteTextController!.text.substring(0, 10);
+            noteTitle = state.noteTextController?.text.substring(0, 10) ?? "";
           } else {
             noteTitle = firstLine;
           }
         } else {
-          noteTitle = state.noteTitleController!.text;
+          noteTitle = state.noteTitleController?.text ?? "";
         }
 
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                if (state.noteTextController!.text == "") {
-                  context
-                      .read<NoteBloc>()
-                      .add(DeleteNote(noteId: state.currentNote!.uuid));
-                } else {
-                  context.read<NoteBloc>().add(SaveNoteChanges());
-                  context.read<NoteBloc>().add(ChangeEditMode());
-                }
+        return ValueListenableBuilder(
+          valueListenable: editOrPreview,
+          builder: (context, value, _) {
+            return Scaffold(
+              appBar: AppBar(
+                leading: IconButton(
+                  onPressed: () {
+                    if ((state.noteTextController?.text ?? "") == "") {
+                      context.read<NoteBloc>().add(
+                            DeleteNote(noteId: state.currentNote?.uuid ?? ""),
+                          );
+                    } else {
+                      print("Dispatching SaveNoteChanges event");
+                      context.read<NoteBloc>().add(SaveNoteChanges());
+                    }
 
-                Navigator.pop(context);
-              },
-              icon: const Icon(IconsaxOutline.arrow_left_2),
-            ),
-            title: state.isEditing
-                ? TextField(
-                    controller: state.noteTitleController!,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                    ),
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  )
-                : Text(
-                    noteTitle,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-            actions: [
-              IconButton(
-                icon: Icon(
-                  state.isEditing
-                      ? IconsaxOutline.edit_2
-                      : IconsaxOutline.book_1,
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(IconsaxOutline.arrow_left_2),
                 ),
-                onPressed: () {
-                  if (state.noteTextController!.text != "") {
-                    context.read<NoteBloc>().add(SaveNoteChanges());
-                  }
+                title: value
+                    ? TextField(
+                        controller: state.noteTitleController ??
+                            TextEditingController(),
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      )
+                    : Text(
+                        noteTitle,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                actions: [
+                  IconButton(
+                    icon: Icon(
+                      value ? IconsaxOutline.edit_2 : IconsaxOutline.book_1,
+                    ),
+                    onPressed: () {
+                      if ((state.noteTextController?.text ?? "") != "") {
+                        print("Dispatching SaveNoteChanges event");
+                        context.read<NoteBloc>().add(SaveNoteChanges());
+                      }
 
-                  context.read<NoteBloc>().add(ChangeEditMode());
-                },
+                      editOrPreview.value = !editOrPreview.value;
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
-          body: state.isEditing ? const EditMode() : const PreviewMode(),
+              body: value ? const EditMode() : const PreviewMode(),
+            );
+          },
         );
       },
     );

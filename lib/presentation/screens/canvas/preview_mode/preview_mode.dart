@@ -19,7 +19,7 @@ class PreviewMode extends StatelessWidget {
           children: [
             Expanded(
               child: Markdown(
-                data: state.noteTextController!.text,
+                data: state.noteTextController?.text ?? '',
                 styleSheet: mdTheme(),
               ),
             ),
