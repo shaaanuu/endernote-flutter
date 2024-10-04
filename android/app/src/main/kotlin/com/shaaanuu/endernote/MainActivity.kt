@@ -1,4 +1,4 @@
-package com.example.endernote_flutter
+package com.shaaanuu.endernote
 
 import io.flutter.embedding.android.FlutterActivity
 
