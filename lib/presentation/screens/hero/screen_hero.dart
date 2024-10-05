@@ -26,12 +26,7 @@ class ScreenHero extends StatelessWidget {
             scaffoldKey.currentState!.openDrawer();
           },
         ),
-        title: const Text(
-          'Endernote',
-          style: TextStyle(
-            fontSize: 16,
-          ),
-        ),
+        title: const Text('Endernote'),
         centerTitle: true,
       ),
       body: Column(

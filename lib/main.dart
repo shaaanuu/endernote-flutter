@@ -7,9 +7,11 @@ import 'package:path_provider/path_provider.dart';
 
 import 'bloc/notes/note_bloc.dart';
 import 'models/note_model.dart';
+import 'presentation/screens/about/screen_about.dart';
 import 'presentation/screens/canvas/screen_canvas.dart';
 import 'presentation/screens/hero/screen_hero.dart';
 import 'presentation/screens/home/screen_home.dart';
+import 'presentation/screens/settings/screen_settings.dart';
 import 'presentation/theme/endernote_theme.dart';
 
 void main() async {
@@ -51,6 +53,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/canvas': (context) => ScreenCanvas(),
           '/home': (context) => const ScreenHome(),
+          '/settings': (context) => const ScreenSettings(),
+          '/about': (context) => const ScreenAbout(),
         },
         theme: enderNoteTheme,
         home: const ScreenHero(),

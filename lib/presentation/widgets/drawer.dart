@@ -39,18 +39,15 @@ Widget showDrawer(context) {
             ],
           ),
         ),
-        const SizedBox(
-          height: 50,
-        ),
         _tiles(
           icn: IconsaxOutline.setting_2,
           title: 'Settings',
-          onTap: () {},
+          onTap: () => Navigator.pushNamed(context, '/settings'),
         ),
         _tiles(
           icn: IconsaxOutline.book,
           title: 'About',
-          onTap: () {},
+          onTap: () => Navigator.pushNamed(context, '/about'),
         ),
       ],
     ),

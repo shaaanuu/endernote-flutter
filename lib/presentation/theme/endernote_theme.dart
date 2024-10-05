@@ -11,6 +11,10 @@ final ThemeData enderNoteTheme = ThemeData(
     scrolledUnderElevation: 0,
     backgroundColor: clrBase,
     foregroundColor: clrText,
+    titleTextStyle: TextStyle(
+      fontSize: 16,
+      color: clrText,
+    ),
   ),
   textTheme: const TextTheme(
     bodyMedium: TextStyle(color: clrText),
