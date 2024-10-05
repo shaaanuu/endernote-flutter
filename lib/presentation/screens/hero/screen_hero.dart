@@ -79,23 +79,6 @@ class ScreenHero extends StatelessWidget {
         ),
         onPressed: () => showCustomBottomSheet(context),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: SizedBox(
-        height: 60,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(IconsaxOutline.note_2),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(IconsaxOutline.note_1),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
