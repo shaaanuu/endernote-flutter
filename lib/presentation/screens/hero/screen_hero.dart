@@ -52,7 +52,17 @@ class ScreenHero extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
-              child: const Text('Create new note'),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Text('Create new note'),
+                  ),
+                  Icon(IconsaxOutline.note_2, size: 22),
+                ],
+              ),
               onPressed: () {
                 context.read<NoteBloc>().add(CreateNote());
 
@@ -63,7 +73,17 @@ class ScreenHero extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
-              child: const Text('Open a note'),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Text('Open a note'),
+                  ),
+                  Icon(IconsaxOutline.folder, size: 21),
+                ],
+              ),
               onPressed: () => Navigator.pushNamed(context, '/home'),
             ),
           ),
