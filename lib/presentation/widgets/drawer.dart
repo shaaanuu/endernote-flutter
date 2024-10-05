@@ -23,9 +23,22 @@ Widget showDrawer(context) {
     child: ListView(
       padding: EdgeInsets.zero,
       children: [
-        // const DrawerHeader(
-        //   child: Text('Header'),
-        // ),
+        const DrawerHeader(
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 50,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text(
+                  'John Doe',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(
           height: 50,
         ),
@@ -35,20 +48,9 @@ Widget showDrawer(context) {
           onTap: () {},
         ),
         _tiles(
-          icn: IconsaxOutline.activity,
-          title: 'title',
-        ),
-        _tiles(
-          icn: IconsaxOutline.activity,
-          title: 'title',
-        ),
-        _tiles(
-          icn: IconsaxOutline.activity,
-          title: 'title',
-        ),
-        _tiles(
-          icn: IconsaxOutline.activity,
-          title: 'title',
+          icn: IconsaxOutline.book,
+          title: 'About',
+          onTap: () {},
         ),
       ],
     ),
