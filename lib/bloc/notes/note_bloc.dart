@@ -77,8 +77,6 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
     });
 
     on<SaveNoteChanges>((event, emit) async {
-      print("SaveNoteChanges event triggered");
-
       if (state.noteTextController?.text.isNotEmpty ?? false) {
         emit(state.copyWith(isLoading: true));
 
@@ -98,29 +96,19 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
           }
 
           try {
-            print(
-                "Saving note to Isar: ${updatedNote.title}, ${updatedNote.text}");
-
             // Update note
             await isar.writeTxn(() async {
               await isar.noteModels.put(updatedNote);
             });
-
-            print("Note saved successfully!");
 
             emit(state.copyWith(
               currentNote: updatedNote,
               isLoading: false,
             ));
           } catch (e) {
-            print("Failed to update note: $e");
             emit(state.copyWith(isLoading: false));
           }
-        } else {
-          print("currentNote is null, cannot update");
         }
-      } else {
-        print("Note text is empty, nothing to save");
       }
     });
 
@@ -131,12 +119,9 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
         // Fetch notes from Isar
         final notes = await isar.noteModels.where().findAll();
 
-        print("Notes loaded: ${notes.length}");
-
         // Update state with loaded notes
         emit(state.copyWith(notes: notes, isLoading: false));
       } catch (e) {
-        print("Error loading notes: $e");
         emit(state.copyWith(isLoading: false));
       }
     });

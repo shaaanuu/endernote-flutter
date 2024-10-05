@@ -43,7 +43,6 @@ class ScreenCanvas extends StatelessWidget {
                             DeleteNote(noteId: state.currentNote?.uuid ?? ""),
                           );
                     } else {
-                      print("Dispatching SaveNoteChanges event");
                       context.read<NoteBloc>().add(SaveNoteChanges());
                     }
 
@@ -76,7 +75,6 @@ class ScreenCanvas extends StatelessWidget {
                     ),
                     onPressed: () {
                       if ((state.noteTextController?.text ?? "") != "") {
-                        print("Dispatching SaveNoteChanges event");
                         context.read<NoteBloc>().add(SaveNoteChanges());
                       }
 
