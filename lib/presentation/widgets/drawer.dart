@@ -49,6 +49,11 @@ Widget showDrawer(context) {
           title: 'About',
           onTap: () => Navigator.pushNamed(context, '/about'),
         ),
+        _tiles(
+          icn: IconsaxOutline.heart,
+          title: 'Favourite',
+          onTap: () => Navigator.pushNamed(context, '/favourite'),
+        ),
       ],
     ),
   );
