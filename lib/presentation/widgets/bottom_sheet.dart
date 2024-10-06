@@ -39,23 +39,23 @@ class BottomSheetContent extends StatelessWidget {
           topRight: Radius.circular(10),
         ),
       ),
-      height: 120,
+      height: 130,
       alignment: Alignment.center,
       child: ListView(
         children: [
           const SizedBox(height: 20),
           CustomTile(
-            icn: IconsaxOutline.note_favorite,
-            title: 'Open today\'s daily note',
-            onTap: () => Navigator.pushNamed(context, '/canvas'),
-          ),
-          CustomTile(
-            icn: IconsaxOutline.note_add,
+            icn: IconsaxOutline.note_2,
             title: 'Create a new note',
             onTap: () {
               context.read<NoteBloc>().add(CreateNote());
               Navigator.pushNamed(context, '/canvas');
             },
+          ),
+          CustomTile(
+            icn: IconsaxOutline.note_text,
+            title: 'Open today\'s daily note',
+            onTap: () => Navigator.pushNamed(context, '/canvas'),
           ),
         ],
       ),
