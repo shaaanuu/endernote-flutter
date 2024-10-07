@@ -1,6 +1,8 @@
 import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
 import '../../../bloc/notes/note_bloc.dart';
@@ -49,25 +51,40 @@ class ScreenHome extends StatelessWidget {
 
           return ListView.builder(
             itemCount: reversedList.length,
-            itemBuilder: (context, index) => Container(
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: clrText),
+            itemBuilder: (context, index) => Slidable(
+              endActionPane: ActionPane(
+                motion: const ScrollMotion(),
+                children: [
+                  IconButton(
+                    icon: const Icon(IconsaxOutline.trash),
+                    onPressed: () {
+                      context.read<NoteBloc>().add(
+                            DeleteNote(noteId: reversedList[index].uuid),
+                          );
+                    },
+                  ),
+                ],
               ),
-              child: ListTile(
-                onTap: () {
-                  context.read<NoteBloc>().add(
-                        ChangeNote(
-                          newNote: reversedList[index],
-                        ),
-                      );
-                  Navigator.pushNamed(context, '/canvas');
-                },
-                leading: const Icon(IconsaxOutline.note),
-                title: Text(reversedList[index].title),
-                subtitle: Text(
-                  "${DateFormat.jm().format(reversedList[index].creationDate)} on ${DateFormat('dd-MM-yyyy').format(reversedList[index].creationDate)}",
+              child: Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: clrText),
+                ),
+                child: ListTile(
+                  onTap: () {
+                    context.read<NoteBloc>().add(
+                          ChangeNote(
+                            newNote: reversedList[index],
+                          ),
+                        );
+                    Navigator.pushNamed(context, '/canvas');
+                  },
+                  leading: const Icon(IconsaxOutline.note),
+                  title: Text(reversedList[index].title),
+                  subtitle: Text(
+                    "${DateFormat.jm().format(reversedList[index].creationDate)} on ${DateFormat('dd-MM-yyyy').format(reversedList[index].creationDate)}",
+                  ),
                 ),
               ),
             ),
