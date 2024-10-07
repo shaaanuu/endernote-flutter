@@ -40,6 +40,11 @@ Widget showDrawer(context) {
           ),
         ),
         _tiles(
+          icn: IconsaxOutline.heart,
+          title: 'Favourite',
+          onTap: () => Navigator.pushNamed(context, '/favourite'),
+        ),
+        _tiles(
           icn: IconsaxOutline.setting_2,
           title: 'Settings',
           onTap: () => Navigator.pushNamed(context, '/settings'),
@@ -48,11 +53,6 @@ Widget showDrawer(context) {
           icn: IconsaxOutline.book,
           title: 'About',
           onTap: () => Navigator.pushNamed(context, '/about'),
-        ),
-        _tiles(
-          icn: IconsaxOutline.heart,
-          title: 'Favourite',
-          onTap: () => Navigator.pushNamed(context, '/favourite'),
         ),
       ],
     ),
