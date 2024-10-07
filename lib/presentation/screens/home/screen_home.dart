@@ -63,6 +63,10 @@ class ScreenHome extends StatelessWidget {
                           );
                     },
                   ),
+                  IconButton(
+                    icon: const Icon(IconsaxOutline.heart),
+                    onPressed: () {},
+                  ),
                 ],
               ),
               child: Container(
