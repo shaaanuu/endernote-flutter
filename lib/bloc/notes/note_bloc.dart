@@ -136,10 +136,11 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
           await isar.noteModels.putByUuid(updatedNote);
         });
 
-        // Updating the notes list after toggling
-        List<NoteModel> updatedNotes = state.notes
-          ..removeWhere((note) => note.uuid == updatedNote.uuid)
-          ..add(updatedNote);
+        int noteIndex =
+            state.notes.indexWhere((n) => n.uuid == updatedNote.uuid);
+
+        List<NoteModel> updatedNotes = List.from(state.notes);
+        updatedNotes[noteIndex] = updatedNote;
 
         emit(state.copyWith(
           notes: updatedNotes,

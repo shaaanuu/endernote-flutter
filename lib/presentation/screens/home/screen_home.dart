@@ -50,53 +50,52 @@ class ScreenHome extends StatelessWidget {
 
           return ListView.builder(
             itemCount: reversedList.length,
-            itemBuilder: (context, index) => Slidable(
-              endActionPane: ActionPane(
-                motion: const ScrollMotion(),
-                children: [
-                  IconButton(
-                    icon: const Icon(IconsaxOutline.trash),
-                    onPressed: () {
+            itemBuilder: (context, index) {
+              final note = reversedList[index];
+
+              return Slidable(
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  children: [
+                    IconButton(
+                      icon: const Icon(IconsaxOutline.trash),
+                      onPressed: () {
+                        context.read<NoteBloc>().add(
+                              DeleteNote(noteId: note.uuid),
+                            );
+                      },
+                    ),
+                    IconButton(
+                      icon: note.isFavorite
+                          ? const Icon(IconsaxBold.heart)
+                          : const Icon(IconsaxOutline.heart),
+                      onPressed: () =>
+                          context.read<NoteBloc>().add(ToggleFavorite(note),),
+                    ),
+                  ],
+                ),
+                child: Container(
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: clrText),
+                  ),
+                  child: ListTile(
+                    onTap: () {
                       context.read<NoteBloc>().add(
-                            DeleteNote(noteId: reversedList[index].uuid),
+                            ChangeNote(newNote: note),
                           );
+                      Navigator.pushNamed(context, '/canvas');
                     },
-                  ),
-                  IconButton(
-                    icon: reversedList[index].isFavorite
-                        ? const Icon(IconsaxBold.heart)
-                        : const Icon(IconsaxOutline.heart),
-                    onPressed: () {
-                      context
-                          .read<NoteBloc>()
-                          .add(ToggleFavorite(reversedList[index]));
-                    },
-                  ),
-                ],
-              ),
-              child: Container(
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: clrText),
-                ),
-                child: ListTile(
-                  onTap: () {
-                    context.read<NoteBloc>().add(
-                          ChangeNote(
-                            newNote: reversedList[index],
-                          ),
-                        );
-                    Navigator.pushNamed(context, '/canvas');
-                  },
-                  leading: const Icon(IconsaxOutline.note),
-                  title: Text(reversedList[index].title),
-                  subtitle: Text(
-                    "${DateFormat.jm().format(reversedList[index].creationDate)} on ${DateFormat('dd-MM-yyyy').format(reversedList[index].creationDate)}",
+                    leading: const Icon(IconsaxOutline.note),
+                    title: Text(note.title),
+                    subtitle: Text(
+                      "${DateFormat.jm().format(note.creationDate)} on ${DateFormat('dd-MM-yyyy').format(note.creationDate)}",
+                    ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           );
         },
       ),
