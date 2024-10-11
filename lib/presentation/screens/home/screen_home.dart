@@ -1,5 +1,4 @@
 import 'package:ficonsax/ficonsax.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -64,8 +63,14 @@ class ScreenHome extends StatelessWidget {
                     },
                   ),
                   IconButton(
-                    icon: const Icon(IconsaxOutline.heart),
-                    onPressed: () {},
+                    icon: reversedList[index].isFavorite
+                        ? const Icon(IconsaxBold.heart)
+                        : const Icon(IconsaxOutline.heart),
+                    onPressed: () {
+                      context
+                          .read<NoteBloc>()
+                          .add(ToggleFavorite(reversedList[index]));
+                    },
                   ),
                 ],
               ),

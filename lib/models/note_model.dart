@@ -15,12 +15,15 @@ class NoteModel {
   late DateTime creationDate;
   late DateTime lastUpdated;
 
+  bool isFavorite = false;
+
   NoteModel({
     this.text = "",
     this.title = "",
     required this.creationDate,
     required this.lastUpdated,
     required this.uuid,
+    this.isFavorite = false,
   });
 
   NoteModel copyWith({
@@ -29,6 +32,7 @@ class NoteModel {
     DateTime? creationDate,
     DateTime? lastUpdated,
     String? uuid,
+    bool? isFavorite,
   }) {
     return NoteModel(
       text: text ?? this.text,
@@ -36,6 +40,7 @@ class NoteModel {
       creationDate: creationDate ?? this.creationDate,
       lastUpdated: lastUpdated ?? this.lastUpdated,
       uuid: uuid ?? this.uuid,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 
@@ -47,6 +52,7 @@ class NoteModel {
     result.addAll({'creationDate': creationDate.millisecondsSinceEpoch});
     result.addAll({'lastUpdated': lastUpdated.millisecondsSinceEpoch});
     result.addAll({'uuid': uuid});
+    result.addAll({'isFavorite': isFavorite});
 
     return result;
   }
@@ -58,6 +64,7 @@ class NoteModel {
       creationDate: DateTime.fromMillisecondsSinceEpoch(map['creationDate']),
       lastUpdated: DateTime.fromMillisecondsSinceEpoch(map['lastUpdated']),
       uuid: map['uuid'] ?? '',
+      isFavorite: map['isFavorite'] ?? false,
     );
   }
 
@@ -75,7 +82,8 @@ class NoteModel {
         other.title == title &&
         other.creationDate == creationDate &&
         other.lastUpdated == lastUpdated &&
-        other.uuid == uuid;
+        other.uuid == uuid &&
+        other.isFavorite == isFavorite;
   }
 
   @override
@@ -84,11 +92,12 @@ class NoteModel {
         title.hashCode ^
         creationDate.hashCode ^
         lastUpdated.hashCode ^
-        uuid.hashCode;
+        uuid.hashCode ^
+        isFavorite.hashCode;
   }
 
   @override
   String toString() {
-    return 'NoteModel(text: $text, title: $title, creationDate: $creationDate, lastUpdated: $lastUpdated, uuid: $uuid)';
+    return 'NoteModel(text: $text, title: $title, creationDate: $creationDate, lastUpdated: $lastUpdated, uuid: $uuid, isFavorite: $isFavorite)';
   }
 }

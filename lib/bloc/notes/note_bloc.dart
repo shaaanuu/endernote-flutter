@@ -24,7 +24,6 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
         uuid: const Uuid().v4(),
       );
 
-      // Save new note
       await isar.writeTxn(() async {
         await isar.noteModels.put(newNote);
       });
@@ -45,7 +44,6 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
         ..removeWhere((note) => note.uuid == event.newNote.uuid);
       NoteModel newNote = event.newNote;
 
-      // Update note
       await isar.writeTxn(() async {
         await isar.noteModels.put(newNote);
       });
@@ -65,7 +63,6 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
       List<NoteModel> notes = state.notes
         ..removeWhere((note) => note.uuid == event.noteId);
 
-      // Delete note
       await isar.writeTxn(() async {
         await isar.noteModels.deleteByUuid(event.noteId);
       });
@@ -80,7 +77,6 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
       if (state.noteTextController?.text.isNotEmpty ?? false) {
         emit(state.copyWith(isLoading: true));
 
-        // Ensure the current note is not null
         NoteModel? updatedNote = state.currentNote;
         if (updatedNote != null) {
           updatedNote.text = state.noteTextController!.text;
@@ -96,7 +92,6 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
           }
 
           try {
-            // Update note
             await isar.writeTxn(() async {
               await isar.noteModels.put(updatedNote);
             });
@@ -116,11 +111,40 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
       try {
         emit(state.copyWith(isLoading: true));
 
-        // Fetch notes from Isar
         final notes = await isar.noteModels.where().findAll();
 
-        // Update state with loaded notes
         emit(state.copyWith(notes: notes, isLoading: false));
+      } catch (e) {
+        emit(state.copyWith(isLoading: false));
+      }
+    });
+
+    on<ToggleFavorite>((event, emit) async {
+      try {
+        emit(state.copyWith(isLoading: true));
+
+        final existingNote = await isar.noteModels
+            .where()
+            .uuidEqualTo(event.note.uuid)
+            .findFirst();
+
+        NoteModel updatedNote = existingNote!.copyWith(
+          isFavorite: !existingNote.isFavorite,
+        );
+
+        await isar.writeTxn(() async {
+          await isar.noteModels.putByUuid(updatedNote);
+        });
+
+        // Updating the notes list after toggling
+        List<NoteModel> updatedNotes = state.notes
+          ..removeWhere((note) => note.uuid == updatedNote.uuid)
+          ..add(updatedNote);
+
+        emit(state.copyWith(
+          notes: updatedNotes,
+          isLoading: false,
+        ));
       } catch (e) {
         emit(state.copyWith(isLoading: false));
       }

@@ -29,6 +29,9 @@ class NoteBlocState extends Equatable {
         noteTitleController: null,
       );
 
+  List<NoteModel> get favoriteNotes =>
+      notes.where((note) => note.isFavorite).toList();
+
   @override
   List<Object> get props =>
       [currentNote.toString(), isLoading, notes, isSaving];

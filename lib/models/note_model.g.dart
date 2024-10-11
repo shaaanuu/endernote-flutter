@@ -27,23 +27,28 @@ const NoteModelSchema = CollectionSchema(
       name: r'hashCode',
       type: IsarType.long,
     ),
-    r'lastUpdated': PropertySchema(
+    r'isFavorite': PropertySchema(
       id: 2,
+      name: r'isFavorite',
+      type: IsarType.bool,
+    ),
+    r'lastUpdated': PropertySchema(
+      id: 3,
       name: r'lastUpdated',
       type: IsarType.dateTime,
     ),
     r'text': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'text',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'title',
       type: IsarType.string,
     ),
     r'uuid': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'uuid',
       type: IsarType.string,
     )
@@ -96,10 +101,11 @@ void _noteModelSerialize(
 ) {
   writer.writeDateTime(offsets[0], object.creationDate);
   writer.writeLong(offsets[1], object.hashCode);
-  writer.writeDateTime(offsets[2], object.lastUpdated);
-  writer.writeString(offsets[3], object.text);
-  writer.writeString(offsets[4], object.title);
-  writer.writeString(offsets[5], object.uuid);
+  writer.writeBool(offsets[2], object.isFavorite);
+  writer.writeDateTime(offsets[3], object.lastUpdated);
+  writer.writeString(offsets[4], object.text);
+  writer.writeString(offsets[5], object.title);
+  writer.writeString(offsets[6], object.uuid);
 }
 
 NoteModel _noteModelDeserialize(
@@ -110,10 +116,11 @@ NoteModel _noteModelDeserialize(
 ) {
   final object = NoteModel(
     creationDate: reader.readDateTime(offsets[0]),
-    lastUpdated: reader.readDateTime(offsets[2]),
-    text: reader.readStringOrNull(offsets[3]) ?? "",
-    title: reader.readStringOrNull(offsets[4]) ?? "",
-    uuid: reader.readString(offsets[5]),
+    isFavorite: reader.readBoolOrNull(offsets[2]) ?? false,
+    lastUpdated: reader.readDateTime(offsets[3]),
+    text: reader.readStringOrNull(offsets[4]) ?? "",
+    title: reader.readStringOrNull(offsets[5]) ?? "",
+    uuid: reader.readString(offsets[6]),
   );
   object.id = id;
   return object;
@@ -131,12 +138,14 @@ P _noteModelDeserializeProp<P>(
     case 1:
       return (reader.readLong(offset)) as P;
     case 2:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 3:
-      return (reader.readStringOrNull(offset) ?? "") as P;
+      return (reader.readDateTime(offset)) as P;
     case 4:
       return (reader.readStringOrNull(offset) ?? "") as P;
     case 5:
+      return (reader.readStringOrNull(offset) ?? "") as P;
+    case 6:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -490,6 +499,16 @@ extension NoteModelQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> isFavoriteEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isFavorite',
+        value: value,
       ));
     });
   }
@@ -970,6 +989,18 @@ extension NoteModelQuerySortBy on QueryBuilder<NoteModel, NoteModel, QSortBy> {
     });
   }
 
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByIsFavorite() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isFavorite', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByIsFavoriteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isFavorite', Sort.desc);
+    });
+  }
+
   QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByLastUpdated() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdated', Sort.asc);
@@ -1057,6 +1088,18 @@ extension NoteModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByIsFavorite() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isFavorite', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByIsFavoriteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isFavorite', Sort.desc);
+    });
+  }
+
   QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByLastUpdated() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdated', Sort.asc);
@@ -1120,6 +1163,12 @@ extension NoteModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<NoteModel, NoteModel, QDistinct> distinctByIsFavorite() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isFavorite');
+    });
+  }
+
   QueryBuilder<NoteModel, NoteModel, QDistinct> distinctByLastUpdated() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastUpdated');
@@ -1165,6 +1214,12 @@ extension NoteModelQueryProperty
   QueryBuilder<NoteModel, int, QQueryOperations> hashCodeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'hashCode');
+    });
+  }
+
+  QueryBuilder<NoteModel, bool, QQueryOperations> isFavoriteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isFavorite');
     });
   }
 
