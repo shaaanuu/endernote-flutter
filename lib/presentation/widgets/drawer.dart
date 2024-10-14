@@ -50,6 +50,11 @@ Widget showDrawer(context) {
           onTap: () => Navigator.pushNamed(context, '/settings'),
         ),
         _tiles(
+          icn: IconsaxOutline.book_1,
+          title: 'Guide',
+          onTap: () => Navigator.pushNamed(context, '/guide'),
+        ),
+        _tiles(
           icn: IconsaxOutline.book,
           title: 'About',
           onTap: () => Navigator.pushNamed(context, '/about'),
