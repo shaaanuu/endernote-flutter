@@ -40,6 +40,11 @@ Widget showDrawer(context) {
           ),
         ),
         _tiles(
+          icn: IconsaxOutline.folder,
+          title: 'All Notes',
+          onTap: () => Navigator.pushNamed(context, '/home'),
+        ),
+        _tiles(
           icn: IconsaxOutline.heart,
           title: 'Favourite',
           onTap: () => Navigator.pushNamed(context, '/favourite'),
