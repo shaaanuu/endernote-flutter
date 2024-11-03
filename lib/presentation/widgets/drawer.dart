@@ -17,19 +17,20 @@ ListTile _tiles({
   );
 }
 
-Widget showDrawer(context) {
+Widget showDrawer(BuildContext context) {
   return Drawer(
     width: 250,
     child: ListView(
       padding: EdgeInsets.zero,
       children: [
-        const DrawerHeader(
+        DrawerHeader(
           child: Column(
             children: [
-              CircleAvatar(
-                radius: 50,
+              GestureDetector(
+                child: const CircleAvatar(radius: 50),
+                onTap: () => Navigator.pushNamed(context, '/sign_in'),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: Text(
                   'John Doe',
@@ -63,6 +64,16 @@ Widget showDrawer(context) {
           icn: IconsaxOutline.book,
           title: 'About',
           onTap: () => Navigator.pushNamed(context, '/about'),
+        ),
+        _tiles(
+          icn: IconsaxOutline.user,
+          title: 'Sign in',
+          onTap: () => Navigator.pushNamed(context, '/sign_in'),
+        ),
+        _tiles(
+          icn: IconsaxOutline.user_add,
+          title: 'Sign up',
+          onTap: () => Navigator.pushNamed(context, '/sign_up'),
         ),
       ],
     ),
