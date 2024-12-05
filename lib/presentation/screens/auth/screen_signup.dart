@@ -19,6 +19,7 @@ class ScreenSignUp extends StatelessWidget {
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Email'),
+              keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 18),
             TextFormField(
