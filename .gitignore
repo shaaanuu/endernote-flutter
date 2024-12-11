@@ -51,3 +51,6 @@ linux/Runner/GoogleService-Info.plist
 web/firebase-config.js
 lib/firebase_options.dart
 firebase.json
+
+# api keys
+lib/api_key.dart

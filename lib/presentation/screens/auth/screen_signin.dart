@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'firebase_auth_service.dart';
 
 class ScreenSignIn extends StatelessWidget {
   ScreenSignIn({super.key});
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final FirebaseAuthService _authService = FirebaseAuthService();
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +34,31 @@ class ScreenSignIn extends StatelessWidget {
             ),
             const SizedBox(height: 18),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                final email = _emailController.text;
+                final password = _passwordController.text;
+
+                if (email.isEmpty || password.isEmpty) {
+                  _showErrorDialog(
+                    context,
+                    "Please enter both email and password.",
+                  );
+                  return;
+                }
+
+                try {
+                  final userData = await _authService.signIn(email, password);
+
+                  await _secureStorage.write(
+                    key: "idToken",
+                    value: userData['id_token'],
+                  );
+
+                  Navigator.of(context).pushReplacementNamed('/home');
+                } catch (error) {
+                  _showErrorDialog(context, error.toString());
+                }
+              },
               child: const Text('Sign In'),
             ),
             const SizedBox(height: 18),
@@ -39,6 +68,24 @@ class ScreenSignIn extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
       ),
     );
   }

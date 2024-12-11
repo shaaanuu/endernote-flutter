@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'bloc/notes/note_bloc.dart';
+import 'firebase_options.dart';
 import 'models/note_model.dart';
 import 'presentation/screens/about/screen_about.dart';
 import 'presentation/screens/auth/screen_signin.dart';
@@ -20,6 +23,13 @@ import 'presentation/theme/endernote_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (defaultTargetPlatform != TargetPlatform.linux &&
+      defaultTargetPlatform != TargetPlatform.macOS) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
   String dirPath;
 
