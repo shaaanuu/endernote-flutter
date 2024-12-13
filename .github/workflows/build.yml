@@ -137,9 +137,8 @@ jobs:
 
       # Debugging...
       - name: Debug Firebase options and API key
-        run: |
-          echo "FIREBASE_OPTIONS: ${{ secrets.FIREBASE_OPTIONS }}"
-          echo "API_KEY: ${{ secrets.API_KEY }}"
+      - run: echo "FIREBASE_OPTIONS: ${{ secrets.FIREBASE_OPTIONS }}"
+      - run: echo "API_KEY: ${{ secrets.API_KEY }}"
 
       - run: flutter build linux --release
       - run: cd build/linux/x64/release/bundle/ && zip -r linux.zip *
