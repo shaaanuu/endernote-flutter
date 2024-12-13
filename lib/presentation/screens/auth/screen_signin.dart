@@ -49,12 +49,17 @@ class ScreenSignIn extends StatelessWidget {
                 try {
                   final userData = await _authService.signIn(email, password);
 
-                  await _secureStorage.write(
-                    key: "idToken",
-                    value: userData['id_token'],
-                  );
+                  if (userData.containsKey('idToken') &&
+                      userData['idToken'] != null) {
+                    await _secureStorage.write(
+                      key: "idToken",
+                      value: userData['idToken'],
+                    );
 
-                  Navigator.of(context).pushReplacementNamed('/home');
+                    Navigator.of(context).pushReplacementNamed('/home');
+                  } else {
+                    throw Exception("idToken is missing or null in userData");
+                  }
                 } catch (error) {
                   _showErrorDialog(context, error.toString());
                 }
