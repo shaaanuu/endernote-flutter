@@ -1,5 +1,7 @@
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 ListTile _tiles({
   required final IconData icn,
@@ -18,6 +20,18 @@ ListTile _tiles({
 }
 
 Widget showDrawer(BuildContext context) {
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+
+  Future<String> fetchEmail() async {
+    final idToken = await secureStorage.read(key: "idToken");
+    if (idToken != null) {
+      var jwt = JwtDecoder.decode(idToken);
+      return jwt["email"] ?? "No email found";
+    } else {
+      return "Token not found";
+    }
+  }
+
   return Drawer(
     width: 250,
     child: ListView(
@@ -30,11 +44,26 @@ Widget showDrawer(BuildContext context) {
                 child: const CircleAvatar(radius: 50),
                 onTap: () => Navigator.pushNamed(context, '/sign_in'),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(
-                  'John Doe',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: FutureBuilder(
+                  future: fetchEmail(),
+                  builder: (context, snapshot) {
+                    String data;
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      data = "Loading...";
+                    } else if (snapshot.hasError) {
+                      data = "Error";
+                    } else {
+                      data = snapshot.data ?? "Who?";
+                    }
+
+                    return Text(
+                      data,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    );
+                  },
                 ),
               ),
             ],
