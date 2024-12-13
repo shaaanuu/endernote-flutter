@@ -49,7 +49,6 @@ macos/Runner/GoogleService-Info.plist
 windows/Runner/GoogleService-Info.plist
 linux/Runner/GoogleService-Info.plist
 web/firebase-config.js
-lib/firebase_options.dart
 firebase.json
 
 # api keys
