@@ -134,6 +134,13 @@ jobs:
         run: |
           echo "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart
           echo "${{ secrets.API_KEY }}" > lib/api_key.dart
+
+      # Debugging...
+      - name: Debug Firebase options and API key
+        run: |
+          echo "FIREBASE_OPTIONS: ${{ secrets.FIREBASE_OPTIONS }}"
+          echo "API_KEY: ${{ secrets.API_KEY }}"
+
       - run: flutter build linux --release
       - run: cd build/linux/x64/release/bundle/ && zip -r linux.zip *
       - name: Upload Linux App to release
