@@ -7,38 +7,6 @@ on:
     branches: ["main"]
 
 jobs:
-  build_ios:
-    name: 🎉 Build iOS IPA
-    runs-on: macos-latest
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-      - run: flutter pub get
-      - run: pod repo update
-        working-directory: ios
-      - name: Create api_key.dart
-        run: echo 'const firebaseWebApi = "\"${{ secrets.API_KEY }}\"";' > lib/api_key.dart
-      - run: flutter build ios --release --no-codesign
-      - run: mkdir Payload
-        working-directory: build/ios/iphoneos
-      - run: mv Runner.app/ Payload
-        working-directory: build/ios/iphoneos
-      - name: Zip output
-        run: zip -qq -r -9 FlutterIpaExport.ipa Payload
-        working-directory: build/ios/iphoneos
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/ios/iphoneos/FlutterIpaExport.ipa
-          tag: v1.0-${{ github.run_number }}
-          overwrite: true
-          body: "It's beta"
-
   build_android:
     name: 🤖 Android Build
     runs-on: ubuntu-latest
@@ -81,30 +49,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build\windows\x64\runner\Release\endernote_flutter.exe
-          tag: v1.0-${{ github.run_number }}
-          overwrite: true
-          body: "It's beta"
-
-  build_mac:
-    name: 🍏 Build macOS App
-    runs-on: macos-latest
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-      - run: flutter pub get
-      - name: Create api_key.dart
-        run: echo 'const firebaseWebApi = "\"${{ secrets.API_KEY }}\"";' > lib/api_key.dart
-      - run: flutter build macos --release
-      - run: cd build/macos/Build/Products/Release/ && zip -r mac.zip Endernote.app
-      - name: Upload macOS App to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/macos/Build/Products/Release/mac.zip
           tag: v1.0-${{ github.run_number }}
           overwrite: true
           body: "It's beta"
