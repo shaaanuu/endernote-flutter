@@ -8,7 +8,7 @@ on:
 
 jobs:
   build_android:
-    name: 🤖 Android Build
+    name: 🤖 Build Android App
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository
