@@ -16,23 +16,34 @@ Welcome to EnderNote! 🚀 EnderNote is a sleek and powerful note-taking applica
 
 - Flutter (v2+ recommended)
 - Dart (v2.12+)
+- Firebase Project with Firestore and Authentication enabled
 
-## Installation
+### Installation
 
-### Clone the repository:
+#### Clone the repository:
 
 ```bash
 git clone https://github.com/shaaanuu/endernote-flutter.git
 cd endernote-flutter
 ```
 
-### Install dependencies:
+#### Install dependencies:
 
 ```bash
 flutter pub get
 ```
 
-### Start the development server:
+#### Set up Firebase:
+
+1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
+2. Add Firebase to your Flutter app by following the setup instructions [Firebase Flutter documentation](https://firebase.flutter.dev/docs/overview).
+3. Create a new file called `api_key.dart` in the lib folder and add your Firebase web API key:
+
+```dart
+const firebaseWebApi = "blablablaa";
+```
+
+#### Start the development server:
 
 ```bash
 flutter run
@@ -50,3 +61,4 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 
 - Inspired by [Obsidian](https://obsidian.md/).
 - Powered by [Flutter](https://flutter.dev/).
+- Backend by [Firebase](https://firebase.google.com/docs).
