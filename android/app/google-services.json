@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "22436447167",
+    "project_id": "endernote-71c5f",
+    "storage_bucket": "endernote-71c5f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22436447167:android:39bc0a5035dce55744570a",
+        "android_client_info": {
+          "package_name": "com.shaaanuu.endernote"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGsT_Aig6sDZgmZSeDFE1fryQGZNCh8_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
