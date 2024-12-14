@@ -21,6 +21,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: "17"
+          distribution: 'temurin'
       - run: flutter pub get
       - name: Create api_key.dart
         run: echo 'const firebaseWebApi = "\"${{ secrets.API_KEY }}\"";' > lib/api_key.dart
