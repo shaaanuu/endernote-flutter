@@ -40,7 +40,7 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
     on<ChangeNote>((event, emit) async {
       emit(state.copyWith(isLoading: true));
 
-      List<NoteModel> notes = state.notes
+      List<NoteModel> notes = List.from(state.notes)
         ..removeWhere((note) => note.uuid == event.newNote.uuid);
       NoteModel newNote = event.newNote;
 
@@ -60,7 +60,7 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
     on<DeleteNote>((event, emit) async {
       emit(state.copyWith(isLoading: true));
 
-      List<NoteModel> notes = state.notes
+      List<NoteModel> notes = List.from(state.notes)
         ..removeWhere((note) => note.uuid == event.noteId);
 
       await isar.writeTxn(() async {
@@ -68,7 +68,7 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
       });
 
       emit(state.copyWith(
-        notes: [...notes],
+        notes: notes,
         isLoading: false,
       ));
     });
@@ -84,9 +84,8 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
           final noteTitleText = state.noteTitleController?.text ?? "";
           if (noteTitleText.isEmpty) {
             String firstLine = state.noteTextController!.text.split("\n").first;
-            updatedNote.title = (firstLine.length >= 10)
-                ? firstLine.substring(0, 10)
-                : firstLine;
+            updatedNote.title =
+                firstLine.length >= 10 ? firstLine.substring(0, 10) : firstLine;
           } else {
             updatedNote.title = noteTitleText;
           }
@@ -128,24 +127,26 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
             .uuidEqualTo(event.note.uuid)
             .findFirst();
 
-        NoteModel updatedNote = existingNote!.copyWith(
-          isFavorite: !existingNote.isFavorite,
-        );
+        if (existingNote != null) {
+          NoteModel updatedNote =
+              existingNote.copyWith(isFavorite: !existingNote.isFavorite);
 
-        await isar.writeTxn(() async {
-          await isar.noteModels.putByUuid(updatedNote);
-        });
+          await isar.writeTxn(() async {
+            await isar.noteModels.putByUuid(updatedNote);
+          });
 
-        int noteIndex =
-            state.notes.indexWhere((n) => n.uuid == updatedNote.uuid);
+          List<NoteModel> updatedNotes = List.from(state.notes);
+          int noteIndex =
+              updatedNotes.indexWhere((n) => n.uuid == updatedNote.uuid);
+          if (noteIndex != -1) {
+            updatedNotes[noteIndex] = updatedNote;
+          }
 
-        List<NoteModel> updatedNotes = List.from(state.notes);
-        updatedNotes[noteIndex] = updatedNote;
-
-        emit(state.copyWith(
-          notes: updatedNotes,
-          isLoading: false,
-        ));
+          emit(state.copyWith(
+            notes: updatedNotes,
+            isLoading: false,
+          ));
+        }
       } catch (e) {
         emit(state.copyWith(isLoading: false));
       }
