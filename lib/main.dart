@@ -4,10 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'api_key.dart';
 import 'bloc/notes/note_bloc.dart';
+import 'bloc/sync/sync_bloc.dart';
 import 'firebase_options.dart';
 import 'models/note_model.dart';
 import 'presentation/screens/about/screen_about.dart';
@@ -43,13 +46,34 @@ Future<void> main() async {
 
   final isar = await Isar.open([NoteModelSchema], directory: dirPath);
 
-  runApp(MyApp(isar: isar));
+  const secureStorage = FlutterSecureStorage();
+  final idToken = await secureStorage.read(key: "idToken");
+  final email = await secureStorage.read(key: "email");
+  final localId = await secureStorage.read(key: 'localId');
+
+  runApp(
+    MyApp(
+      isar: isar,
+      idToken: idToken ?? "",
+      email: email ?? "",
+      localId: localId ?? "",
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.isar});
+  const MyApp({
+    super.key,
+    required this.isar,
+    required this.idToken,
+    required this.email,
+    required this.localId,
+  });
 
   final Isar isar;
+  final String idToken;
+  final String email;
+  final String localId;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +82,15 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           lazy: false,
           create: (context) => NoteBloc(isar: isar),
+        ),
+        BlocProvider(
+          create: (context) => SyncBloc(
+            isar: isar,
+            firebaseUrl:
+                "https://endernote-71c5f-default-rtdb.firebaseio.com/$localId/",
+            apiKey: firebaseWebApi,
+            idToken: idToken,
+          ),
         ),
       ],
       child: MaterialApp(

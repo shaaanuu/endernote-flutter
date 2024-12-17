@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../../bloc/sync/sync_bloc.dart';
 import 'firebase_auth_service.dart';
 
 class ScreenSignUp extends StatelessWidget {
@@ -47,14 +49,31 @@ class ScreenSignUp extends StatelessWidget {
                 }
 
                 try {
-                  final userData = await _authService.signUp(email, password);
+                  await _authService.signUp(email, password);
 
-                  await _secureStorage.write(
-                    key: "idToken",
-                    value: userData['id_token'],
-                  );
+                  final userData = await _authService.signIn(email, password);
 
-                  Navigator.of(context).pushReplacementNamed('/home');
+                  if (userData.containsKey('idToken') &&
+                      userData['idToken'] != null) {
+                    await _secureStorage.write(
+                      key: "idToken",
+                      value: userData['idToken'],
+                    );
+                    await _secureStorage.write(
+                      key: "refreshToken",
+                      value: userData['refreshToken'],
+                    );
+                    await _secureStorage.write(
+                      key: 'email',
+                      value: email,
+                    );
+
+                    context.read<SyncBloc>().add(SyncIsarToFirebase());
+
+                    Navigator.of(context).pushReplacementNamed('/home');
+                  } else {
+                    throw Exception("idToken is missing or null in userData");
+                  }
                 } catch (error) {
                   _showErrorDialog(context, error.toString());
                 }

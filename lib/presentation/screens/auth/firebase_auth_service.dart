@@ -90,5 +90,9 @@ class FirebaseAuthService {
       key: "refreshToken",
       value: data['refresh_token'],
     );
+    await secureStorage.write(
+      key: "localId",
+      value: data['localId'],
+    );
   }
 }
