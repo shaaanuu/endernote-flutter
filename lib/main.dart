@@ -45,18 +45,14 @@ Future<void> main() async {
   }
 
   final isar = await Isar.open([NoteModelSchema], directory: dirPath);
-
   const secureStorage = FlutterSecureStorage();
-  final idToken = await secureStorage.read(key: "idToken");
-  final email = await secureStorage.read(key: "email");
-  final localId = await secureStorage.read(key: 'localId');
 
   runApp(
     MyApp(
       isar: isar,
-      idToken: idToken ?? "",
-      email: email ?? "",
-      localId: localId ?? "",
+      idToken: await secureStorage.read(key: "idToken") ?? "",
+      email: await secureStorage.read(key: "email") ?? "",
+      localId: await secureStorage.read(key: "localId") ?? "",
     ),
   );
 }
