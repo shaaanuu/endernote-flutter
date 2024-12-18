@@ -24,7 +24,8 @@ import 'presentation/theme/endernote_theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  String dirPath;
+  const secureStorage = FlutterSecureStorage();
+  final String dirPath;
 
   if (Platform.isAndroid || Platform.isIOS) {
     final dir = await getApplicationDocumentsDirectory();
@@ -34,12 +35,10 @@ Future<void> main() async {
     dirPath = dir.path;
   }
 
-  final isar = await Isar.open([NoteModelSchema], directory: dirPath);
-  const secureStorage = FlutterSecureStorage();
 
   runApp(
     MyApp(
-      isar: isar,
+      isar: await Isar.open([NoteModelSchema], directory: dirPath),
       idToken: await secureStorage.read(key: "idToken") ?? "",
       email: await secureStorage.read(key: "email") ?? "",
       localId: await secureStorage.read(key: "localId") ?? "",
