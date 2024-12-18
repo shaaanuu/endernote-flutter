@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../bloc/sync/sync_bloc.dart';
-import 'firebase_auth_service.dart';
+import '../../../services/firebase_auth_service.dart';
 
 class ScreenSignUp extends StatelessWidget {
   ScreenSignUp({super.key});
