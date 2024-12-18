@@ -49,11 +49,32 @@ class SyncBloc extends Bloc<SyncEvent, SyncState> {
     Emitter<SyncState> emit,
   ) async {
     emit(SyncLoading());
+
+    final response = await http.get(
+      Uri.parse('$firebaseUrl/notes.json?auth=$idToken'),
+    );
+
     try {
-      final response =
-          await http.get(Uri.parse('$firebaseUrl/notes.json?auth=$idToken'));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
+
+        final notes = data.entries.map((entry) {
+          final noteMap = entry.value['fields'];
+          return NoteModel.fromMap(noteMap);
+        }).toList();
+
+        await isar.writeTxn(() async {
+          for (var note in notes) {
+            await isar.noteModels.putByUuid(note);
+          }
+        });
+
+        emit(SyncSuccess());
+      } else if (response.statusCode == 401) {
+        await refreshIdToken();
+
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+
         final notes = data.entries.map((entry) {
           final noteMap = entry.value['fields'];
           return NoteModel.fromMap(noteMap);
@@ -64,14 +85,6 @@ class SyncBloc extends Bloc<SyncEvent, SyncState> {
             await isar.noteModels.put(note);
           }
         });
-        emit(SyncSuccess());
-      } else {
-        emit(
-          SyncFailure(
-            error:
-                'Failed to fetch data from Firebase. Status code: ${response.statusCode}',
-          ),
-        );
       }
     } catch (e) {
       emit(SyncFailure(error: e.toString()));

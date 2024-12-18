@@ -72,6 +72,7 @@ class ScreenSignIn extends StatelessWidget {
                   }
 
                   context.read<SyncBloc>().add(SyncIsarToFirebase());
+                  context.read<SyncBloc>().add(SyncFirebaseToIsar());
                 } catch (error) {
                   _showErrorDialog(context, error.toString());
                 }
