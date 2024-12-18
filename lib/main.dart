@@ -35,10 +35,13 @@ Future<void> main() async {
     dirPath = dir.path;
   }
 
-
   runApp(
     MyApp(
-      isar: await Isar.open([NoteModelSchema], directory: dirPath),
+      isar: await Isar.open(
+        [NoteModelSchema],
+        directory: dirPath,
+        inspector: false,
+      ),
       idToken: await secureStorage.read(key: "idToken") ?? "",
       email: await secureStorage.read(key: "email") ?? "",
       localId: await secureStorage.read(key: "localId") ?? "",
