@@ -23,6 +23,10 @@ jobs:
           java-version: "17"
           distribution: "temurin"
       - run: flutter pub get
+      - name: Extract Version from pubspec.yaml
+        id: extract_version
+        run: |
+          echo "VERSION=$(grep '^version: ' pubspec.yaml | sed 's/version: //')" >> $GITHUB_ENV
       - name: Create api_key.dart
         run: echo 'const firebaseWebApi = "\"${{ secrets.API_KEY }}\"";' > lib/api_key.dart
       - run: flutter build apk --release
@@ -31,9 +35,9 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/app/outputs/flutter-apk/app-release.apk
-          tag: v1.0-${{ github.run_number }}
+          tag: ${{ env.VERSION }}
           overwrite: true
-          body: "It's beta"
+          body: "Freshly brewed build, ready to shine!"
 
   build_windows:
     name: 🪟 Build Windows App
@@ -46,6 +50,10 @@ jobs:
         with:
           channel: stable
       - run: flutter pub get
+      - name: Extract Version from pubspec.yaml
+        id: extract_version
+        run: |
+          echo "VERSION=$(grep '^version: ' pubspec.yaml | sed 's/version: //')" >> $GITHUB_ENV
       - name: Create api_key.dart
         run: echo 'const firebaseWebApi = "\"${{ secrets.API_KEY }}\"";' > lib/api_key.dart
       - run: flutter build windows --release
@@ -54,9 +62,9 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build\windows\x64\runner\Release\endernote_flutter.exe
-          tag: v1.0-${{ github.run_number }}
+          tag: ${{ env.VERSION }}
           overwrite: true
-          body: "It's beta"
+          body: "Freshly brewed build, ready to shine!"
 
   build_linux:
     name: 🐧 Build Linux App
@@ -71,6 +79,10 @@ jobs:
       - run: sudo apt-get update -y
       - run: sudo apt-get install -y ninja-build libgtk-3-dev libsecret-1-dev
       - run: flutter pub get
+      - name: Extract Version from pubspec.yaml
+        id: extract_version
+        run: |
+          echo "VERSION=$(grep '^version: ' pubspec.yaml | sed 's/version: //')" >> $GITHUB_ENV
       - name: Create api_key.dart
         run: echo 'const firebaseWebApi = "\"${{ secrets.API_KEY }}\"";' > lib/api_key.dart
       - run: flutter build linux --release
@@ -80,6 +92,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/linux/x64/release/bundle/linux.zip
-          tag: v1.0-${{ github.run_number }}
+          tag: ${{ env.VERSION }}
           overwrite: true
-          body: "It's beta"
+          body: "Freshly brewed build, ready to shine!"
