@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../bloc/sync/sync_bloc.dart';
 import '../../../services/firebase_auth_service.dart';
 
 class ScreenSignIn extends StatelessWidget {
@@ -70,9 +68,6 @@ class ScreenSignIn extends StatelessWidget {
                   } else {
                     throw Exception("idToken is missing or null in userData");
                   }
-
-                  context.read<SyncBloc>().add(SyncIsarToFirebase());
-                  context.read<SyncBloc>().add(SyncFirebaseToIsar());
                 } catch (error) {
                   _showErrorDialog(context, error.toString());
                 }

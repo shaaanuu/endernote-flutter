@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../bloc/sync/sync_bloc.dart';
 import '../../../services/firebase_auth_service.dart';
 
 class ScreenSignUp extends StatelessWidget {
@@ -74,8 +72,6 @@ class ScreenSignUp extends StatelessWidget {
                       key: 'email',
                       value: email,
                     );
-
-                    context.read<SyncBloc>().add(SyncIsarToFirebase());
 
                     Navigator.of(context).pushReplacementNamed('/home');
                   } else {

@@ -86,16 +86,6 @@ Widget showDrawer(BuildContext context) {
           title: 'About',
           onTap: () => Navigator.pushNamed(context, '/about'),
         ),
-        _tiles(
-          icn: IconsaxOutline.user,
-          title: 'Sign in',
-          onTap: () => Navigator.pushNamed(context, '/sign_in'),
-        ),
-        _tiles(
-          icn: IconsaxOutline.user_add,
-          title: 'Sign up',
-          onTap: () => Navigator.pushNamed(context, '/sign_up'),
-        ),
       ],
     ),
   );

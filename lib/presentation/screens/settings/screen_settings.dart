@@ -1,11 +1,23 @@
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../../../bloc/sync/sync_bloc.dart';
 
 class ScreenSettings extends StatelessWidget {
   const ScreenSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
+    const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+
+    Future<String?> fetchEmail() async =>
+        await secureStorage.read(key: "email");
+
+    Future<String?> fetchName() async =>
+        await secureStorage.read(key: "displayName");
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -20,6 +32,33 @@ class ScreenSettings extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: ListView(
           children: [
+            ListTile(
+              leading: const Icon(IconsaxOutline.user),
+              title: FutureBuilder(
+                future: fetchName(),
+                builder: (context, snapshot) => Text(
+                  snapshot.data ?? "Not logged in",
+                ),
+              ),
+              subtitle: FutureBuilder(
+                future: fetchEmail(),
+                builder: (context, snapshot) => Text(
+                  snapshot.data ?? "Not logged in",
+                ),
+              ),
+              onTap: () => Navigator.pushNamed(context, "/sign_in"),
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.sync_rounded),
+              title: const Text('Sync'),
+              subtitle: const Text('Sync to cloud'),
+              onTap: () {
+                context.read<SyncBloc>().add(SyncIsarToFirebase());
+                context.read<SyncBloc>().add(SyncFirebaseToIsar());
+              },
+            ),
+            const Divider(),
             ListTile(
               leading: const Icon(IconsaxOutline.brush_3),
               title: const Text('Theme'),
@@ -57,12 +96,6 @@ class ScreenSettings extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            const Divider(),
-            const ListTile(
-              leading: Icon(IconsaxOutline.direct_normal),
-              title: Text('demo'),
-              subtitle: Text('demo'),
             ),
             const Divider(),
           ],
