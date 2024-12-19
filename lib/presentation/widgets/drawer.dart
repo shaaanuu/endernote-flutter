@@ -22,15 +22,8 @@ ListTile _tiles({
 Widget showDrawer(BuildContext context) {
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
-  Future<String> fetchEmail() async {
-    final idToken = await secureStorage.read(key: "idToken");
-    if (idToken != null) {
-      var jwt = JwtDecoder.decode(idToken);
-      return jwt["email"] ?? "No email found";
-    } else {
-      return "Token not found";
-    }
-  }
+  Future<String> fetchEmail() async =>
+      await secureStorage.read(key: "displayName") ?? "Who...?";
 
   return Drawer(
     width: 250,

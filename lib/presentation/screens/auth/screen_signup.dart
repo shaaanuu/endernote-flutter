@@ -10,6 +10,7 @@ class ScreenSignUp extends StatelessWidget {
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
   final FirebaseAuthService _authService = FirebaseAuthService();
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
@@ -35,21 +36,27 @@ class ScreenSignUp extends StatelessWidget {
               obscureText: true,
             ),
             const SizedBox(height: 18),
+            TextFormField(
+              controller: _usernameController,
+              decoration: const InputDecoration(labelText: 'Name'),
+            ),
+            const SizedBox(height: 18),
             ElevatedButton(
               onPressed: () async {
                 final email = _emailController.text;
                 final password = _passwordController.text;
+                final name = _usernameController.text;
 
-                if (email.isEmpty || password.isEmpty) {
+                if (email.isEmpty || password.isEmpty || name.isEmpty) {
                   _showErrorDialog(
                     context,
-                    "Please enter both email and password.",
+                    "Seriously...? Fill it idiot...",
                   );
                   return;
                 }
 
                 try {
-                  await _authService.signUp(email, password);
+                  await _authService.signUp(email, password, name);
 
                   final userData = await _authService.signIn(email, password);
 

@@ -10,7 +10,11 @@ class FirebaseAuthService {
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   // Sign-Up
-  Future<Map<String, dynamic>> signUp(String email, String password) async {
+  Future<Map<String, dynamic>> signUp(
+    String email,
+    String password,
+    String displayName,
+  ) async {
     final url = Uri.parse(
       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=$apiKey",
     );
@@ -21,6 +25,7 @@ class FirebaseAuthService {
         "email": email,
         "password": password,
         "returnSecureToken": true,
+        "display_name": displayName,
       }),
     );
 
@@ -93,6 +98,10 @@ class FirebaseAuthService {
     await secureStorage.write(
       key: "localId",
       value: data['localId'],
+    );
+    await secureStorage.write(
+      key: "displayName",
+      value: data['displayName'],
     );
   }
 }
