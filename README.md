@@ -5,10 +5,10 @@ Welcome to EnderNote! 🚀 EnderNote is a sleek and powerful note-taking applica
 ## Features
 
 - ⚡ **Lightning Fast**: Utilizes Flutter for smooth performance and quick load times.
+- ☁️ **Cloud Sync**: Sync your notes across devices.
 - 📝 **Markdown Support**: Write notes in Markdown with live preview.
 - 🔍 **Full-Text Search**: Quickly find your notes with robust search functionality (coming soon).
 - 📁 **Organized Folders**: Organize your notes into folders for better management (coming soon).
-- ☁️ **Cloud Sync**: Sync your notes across devices (coming soon).
 
 ## Getting Started
 
@@ -23,8 +23,8 @@ Welcome to EnderNote! 🚀 EnderNote is a sleek and powerful note-taking applica
 #### Clone the repository:
 
 ```bash
-git clone https://github.com/shaaanuu/endernote-flutter.git
-cd endernote-flutter
+git clone https://github.com/shaaanuu/endernote.git
+cd endernote
 ```
 
 #### Install dependencies:
@@ -36,8 +36,7 @@ flutter pub get
 #### Set up Firebase:
 
 1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
-2. Add Firebase to your Flutter app by following the setup instructions [Firebase Flutter documentation](https://firebase.flutter.dev/docs/overview).
-3. Create a new file called `api_key.dart` in the lib folder and add your Firebase web API key:
+2. Create a new file called `api_key.dart` in the lib folder and add your Firebase web API key:
 
 ```dart
 const firebaseWebApi = "blablablaa";
@@ -51,14 +50,15 @@ flutter run
 
 ## Contributing
 
-We welcome contributions! Please see our [CONTRIBUTING.md](https://github.com/shaaanuu/endernote-flutter/blob/main/CONTRIBUTING.md) for details on how to get started.
+We welcome contributions! Please see our [CONTRIBUTING.md](https://github.com/shaaanuu/endernote/blob/main/CONTRIBUTING.md) for details on how to get started.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/shaaanuu/endernote-flutter/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/shaaanuu/endernote/blob/main/LICENSE) file for details.
 
 ## Acknowledgements
 
 - Inspired by [Obsidian](https://obsidian.md/).
 - Powered by [Flutter](https://flutter.dev/).
+- State management by [flutter_bloc](https://pub.dev/packages/flutter_bloc).
 - Backend by [Firebase](https://firebase.google.com/docs).
